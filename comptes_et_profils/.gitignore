@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environnement virtuel
+.venv/
+env/
+ENV/
+
+# Fichiers de configuration de PyCharm/VSCode
+.idea/
+.vscode/
+
+# Fichiers inutiles
+*.log
+*.pot
+*.pyc
+*.db
+*.sqlite3
+
+# Migrations compilées
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.py~
+
+# Migrations Django (optionnel)
+**/migrations/
+!**/migrations/__init__.py
+
+# Cache de tests ou temporaire
+*.tmp
+*.bak
+*.swp
+
+# Fichiers sensibles
+*.env
+*.pem
+*.key

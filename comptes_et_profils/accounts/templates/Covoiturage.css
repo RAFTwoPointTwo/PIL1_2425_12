@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color:white;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+.h2{
+    background-color:white;
+    position: absolute;
+
+}
+.search-offer {
+    background-color: #5a5ae5;
+    padding: 20px;
+    border-radius: 30px;
+    width: 50%;
+    margin:auto;
+    
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 48%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.section {
+    width: 90%;
+    max-width: 1200px;
+}
+form-container{
+    flex-direction: row;
+    align-items:center;/*Centre horizontalement*/
+    justify-content: center;/*Centre verticalement*/ 
+    gap: 20px;/*Espacement entre les éléments*/
+    width: 80%;
+    padding: 60px;
+}
+.form-container {
+    flex-direction: row; /* Aligner horizontalement */
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre verticalement */
+    gap: 50px; /* Espacement entre les éléments */
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group {
+    flex-direction:row;
+    align-items: center;
+    width: 100%; /* Chaque groupe prend la moitié de l'espace */
+}
+
+.form-group label {
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%; /* Ajuste la largeur des champs */
+    margin: 0 auto;
+    text-align: center;
+}
+.Rechercher_Proposer{
+    display: flex;
+}
+
+.choisir-comotorage h2 {
+    font-size: 1.8em;
+    color:black;
+}
+
+.choisir-comotorage p {
+    font-size: 1.2em;
+    color:black;
+}
+
+.choisir-comotorage ul {
+    list-style: none;
+    padding: 0;
+}
+
+.choisir-comotorage li {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+.footer {
+    background-color: #333; /* Couleur de fond sombre */
+    color: #fff; /* Texte en blanc */
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-nav {
+    margin-top: 10px;
+}
+
+.footer-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1em;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+}
+

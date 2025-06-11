@@ -1,0 +1,239 @@
+{% load static %}
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Document</title>
+
+    <style>
+        .attribut{
+            margin-top: 7rem;
+            margin-bottom: 7rem;
+        }
+
+        .attribut-1{
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+            padding-bottom: 1rem;
+            padding-top: 1rem;
+            margin-left: 5%;
+            margin-right: 5%;
+            border-radius: 4px;
+            background-image: -webkit-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: -moz-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image:-o-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+            
+
+        }
+
+        .attribut-2{
+            margin-top: 2rem;
+            
+        }
+
+        body{
+            background: linear-gradient(135deg,#e0f7fa,#e0ffe9);
+        }
+
+        .attribut-3{
+            border: 0.5px;
+            border-radius: 5px;
+        }
+
+        .attribut-4{
+            background: linear-gradient(110deg,rgb(12, 62, 245),rgb(3, 248, 109));
+            color: white;
+            padding-left: 3rem;
+            padding-right: 3rem;
+            border-radius: 4px;
+            border: 0.5px;
+        }
+
+        .attribut-5{
+            background: linear-gradient(90deg,rgb(1, 56, 255),rgb(27, 248, 3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .attribut-6{
+             background-image: -webkit-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
+            background-image: -moz-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
+            background-image:-o-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
+            background-image: linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 2rem;
+        }
+
+        .attribut-7{
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            box-sizing: border-box;
+            margin: 2rem;
+            border-radius: 5px;
+        }
+
+        .attribut-8{
+           
+            font-size: large;
+            text-decoration: none;
+
+
+        }
+
+        .attribut-9{
+            background-image: -webkit-linear-gradient(74deg,#a1cef7,rgb(14, 224, 243),rgb(141, 254, 222));
+            background-image: -moz-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image:-o-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            width: 100%;
+            
+        }
+            
+
+        
+    </style>
+
+    
+        
+</head>
+<body>
+    
+   <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+     <a class="navbar-brand" href="#">Logisticar</a>
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+     </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Comment ça marche</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Partager un trajet</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Messagerie</a>
+        </li>
+
+
+         <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Mon compte</a>
+        </li>
+      </ul>
+      
+      </div>
+    </div>
+   </nav>
+   </header>
+
+
+
+   <div class="container-lg text-center attribut" >
+
+       <div class="row"><h1 class="attribut-5">Partager le trajet, Partager le prix</h1></div>
+       <div class="row mt-3"><p>Trouvez des partenaires, réduisez vos dépenses et réduisez votre empreinte carbonne</p></div>
+
+       <form method="POST" action="{% url 'register' %}">
+           {% csrf_token %}
+           <div class="row attribut-1">
+               <div class="col-md">
+                   <span>Départ</span><br>
+                   <input class="attribut-3" type="text" name="point_de _depart">
+               </div>
+
+               <div class="col-md">
+                   <span>Arrivée</span><br>
+                   <input class="attribut-3" type="text" name="point_de_arrivée">
+               </div>
+
+               <div class="col-md">
+                   <span>Date</span><br>
+                   <input class="attribut-3" type="date" name="date_de _depart">
+               </div>
+
+               <div class="col-md">
+                   <span>Heure de départ</span><br>
+                   <input class="attribut-3" type="datetime" name="point_de _depart">
+               </div>
+               <div class="row-cols-auto attribut-2"><button class="attribut-4 btn" type="submit">Valider</button></div>
+           </div>
+       </form>
+
+    </div>
+
+    <div class="container text-center">
+        <div class="row"><p>Rejoignez une aventure incroyable et faites vous de nouvelles experiences</p></div>
+        <div class="row">
+            <div class="col attribut-6">
+                <p>Utilisateur 1</p>
+            </div>
+            <div class="col attribut-6">
+               <p>Utilisateur 2</p>
+            </div>
+            <div class="col attribut-6">
+               <p>Utilisateur 3</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xl text-center">
+
+        <div class="row">
+            <div class="col attribut-7">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield" viewBox="0 0 16 16">
+                      <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+                </svg>
+                <h2>Sécurité</h2>
+                <p>Profil vérifié, messagerie sécurisée et support technique</p>
+
+            </div>
+
+            <div class="col attribut-7">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-leaf" viewBox="0 0 16 16">
+                       <path d="M1.4 1.7c.216.289.65.84 1.725 1.274 1.093.44 2.884.774 5.834.528l.37-.023c1.823-.06 3.117.598 3.956 1.579C14.16 6.082 14.5 7.41 14.5 8.5c0 .58-.032 1.285-.229 1.997q.198.248.382.54c.756 1.2 1.19 2.563 1.348 3.966a1 1 0 0 1-1.98.198c-.13-.97-.397-1.913-.868-2.77C12.173 13.386 10.565 14 8 14c-1.854 0-3.32-.544-4.45-1.435-1.125-.887-1.89-2.095-2.391-3.383C.16 6.62.16 3.646.509 1.902L.73.806zm-.05 1.39c-.146 1.609-.008 3.809.74 5.728.457 1.17 1.13 2.213 2.079 2.961.942.744 2.185 1.22 3.83 1.221 2.588 0 3.91-.66 4.609-1.445-1.789-2.46-4.121-1.213-6.342-2.68-.74-.488-1.735-1.323-1.844-2.308-.023-.214.237-.274.38-.112 1.4 1.6 3.573 1.757 5.59 2.045 1.227.215 2.21.526 3.033 1.158.058-.39.075-.782.075-1.158 0-.91-.288-1.988-.975-2.792-.626-.732-1.622-1.281-3.167-1.229l-.316.02c-3.05.253-5.01-.08-6.291-.598a5.3 5.3 0 0 1-1.4-.811"/>
+                </svg>
+                <h2>Ecologique</h2>
+                <p>Réduit votre empreinte carbonne et reduit le embouiteillage.En utilisant Logisticar vous contribuez à la sauvegarde de la planéte </p>
+
+            </div>
+
+            <div class="col attribut-7">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                   <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                  </svg>
+                <h2>Economique</h2>
+                <p>Réduit vos dépenses </p>
+
+            </div>
+        </div>
+    </div>
+
+     <footer class="container-fluid text-center attribut-9">
+            
+                <div class="row">
+                   <p>All right reserved</p>
+                </div>
+                <div class="row row-cols-4">
+                   <a class="attribut-8" href="#">A propos</a>
+                    <a class="attribut-8" href="#">Condition d'utilisation</a>
+                    <a class="attribut-8" href="#">Confidentialité</a> 
+                     <a class="attribut-8" href="#">Contact</a>
+                </div>
+
+     </footer>
+
+   
+
+
+    <script src="{% static 'css/bootstrap.bundle.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Accueil Covoiturage</title>
+    <link rel="stylesheet" href="Covoiturage.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+   </head> 
+      <body class="pe-5 bg-light">
+         <!--En-tête-->
+         <header class="container rounded-pill bg-info header">
+            <div class="container text-center">
+                <h1 class="fw-bolder text-light">Covoiturage-12</h1>
+            </div>
+            
+            <div class="container text-center p-2">
+                <nav>
+                    <a href="#infos">Informations personnelles</a>
+                    <a href="#rechercher">Rechercher un trajet</a>
+                    <a href="#proposer">Proposer un trajet</a>
+                </nav>
+            </div>
+         </header>
+         <div class="container text-center mt-3">
+             <button class="btn btn-secondary me-5">Se connecter</button>
+             <button class="btn btn-success ms-5">Publier un trajet</button>
+         </div>
+         <h2 class="container-fluid bg-transparent shadow text-center m-3 p-3 rounded-4">Rejoignez une communauté de personnes solidaires</h2>
+          <!--Formulaire de recherche et proposition-->
+         <section class="search-offer">
+            <h3 class="text-center bg-light rounded-pill shadow">Recherchez ou proposez un trajet</h3>
+            <!--Rechercher un Trajet-->
+            <div class="Rechercher_Proposer container d-flex justify-content-center align-items-center mt-5">
+               <div class="form-block">
+               <section id="rechercher" class=" shadow search-offer w-75 h-100 mt-3">
+                  <h3 class="fs-5 text-wrap text-center text-light text-decoration-underline">Rechercher un trajet</h3>
+                     <form>
+                     <div class="form-group">
+                        <label for="recherche-depart" class="form-label">Point de départ:</label>
+                        <input type="text" id="recherche-depart" name="recherche-depart" class="form-control"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="recherche-arrivée" class="form-label">Point d'arrivée:</label>
+                        <input type="text" id="recherche-arrivée" name="recherche-arrivée" class="form-control"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="recherche-date" class="form-label">Date:</label>
+                        <input type="date" id="recherche-date" name="recherche-date" class="form-control"/>
+                     </div>
+                      <div class="form-group">
+                        <label for="recherche-heure" class="form-label">Heure:</label>
+                        <input type="time" id="recherche-heure" name="recherche-heure" class="form-control"/>
+                     </div>
+                     <div class="text-center"><button type="submit" class="btn btn-primary m-2 shadow">Rechercher</button></div>
+                     </form>
+               </section>
+               </div>
+               <!--Proposer un trajet-->
+              <div class="form-bloc">
+                  <section id="proposer" class="shadow search-offer w-75">
+                  <h3 class="fs-5 text-wrap text-center text-light text-decoration-underline">Proposer un trajet</h3>
+                  <form>
+                     <div class="form-group">
+                        <label for="proposer-depart" class="form-label">Point de départ:</label>
+                        <input type="text" id="proposer-depart" name="proposer-arrivée" class="form-control"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="proposer-arrivée" class="form-label">Point d'arrivée:</label>
+                        <input type="text" id="proposer-arrivée" name="proposer-arrivée" class="form-control"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="proposer-date" class="form-label">Date:</label>
+                        <input type="date" id="proposer-date" name="proposer-date" class="form-control"/>
+                     </div>
+                      <div class="form-group">
+                        <label for="proposer-heure" class="form-label">Heure:</label>
+                        <input type="time" id="proposer-heure" name="proposer-heure" class="form-control"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="proposer-places" class="form-label">Nombre de places disponibles:</label>
+                        <input type="number" id="proposer-places" name="proposer-places" class="form-control"/>
+                     </div>
+                     <div class="text-center"><button type="submit" class="btn btn-primary m-2 shadow text-nowrap">Proposer le trajet</button></div>
+                  </form>
+                  </section>
+              </div>
+            </div>
+      </section>
+      <div class="container bg-info rounded-3 mt-5">
+    <h2 class="text-center bg-light shadow rounded-pill m-5">Pourquoi choisir Comotorage12 ?</h2>
+    <p class="fs-5 text-light">Comotorage-12 vous offre une solution de covoiturage fiable, économique et conviviale.</p>
+    <ul class="fs-6 text-light">
+        <li><span class="fs-2">🚗</span> Économisez sur vos trajets grâce au partage des frais.</li>
+        <li><span class="fs-2">🤝</span> Rencontrez des voyageurs et partagez des expériences.</li>
+        <li><span class="fs-2">🌍</span> Réduisez votre empreinte carbone en optimisant les trajets.</li>
+    </ul>
+</div>
+<footer class="container bg-secondary min-vw-100 rounded-3 h-auto p-5">
+    <div class="container text-center">
+        <p class="fw-bolder">&copy; 2025 Comotorage12 - Tous droits réservés.</p>
+        <nav class="footer-nav">
+            <a href="#">À propos</a>
+            <a href="#">Contact</a>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Confidentialité</a>
+        </nav>
+    </div>
+</footer>
+
+   </body>   
+</html>

@@ -1,0 +1,137 @@
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Inscription</title>
+
+    <style>
+        body{
+            background: linear-gradient(135deg,#e0f7fa,#e0ffe9);
+            padding-top: 8%;
+            padding-bottom: 20%;
+        }
+
+        .flux-clair{
+            border-radius: 4px;
+            background-image: -webkit-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: -moz-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image:-o-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flux{
+            background: linear-gradient(90deg,rgb(1, 56, 255),rgb(27, 248, 3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .marge-top{
+            margin-top: 40%;
+        }
+
+        .super-marge-top{
+            margin-top: 45%;
+            margin-left: 30%;
+        }
+
+    </style>
+
+</head>
+<body class="bg-light">
+    <div class="container flux text-center fs-1 mb-5"><h1>Créez un compte</h1></div>
+    <br>
+    <div class="d-flex justify-content-center align-items-center vh-100 my-5 ">
+        <form method="POST" enctype="multipart/form-data" class="container p-4 rounded shadow">
+        {% csrf_token %}
+        <div class="container justify-content-center align-items-center marge-top">
+            <fieldset>
+                <h2 class="container fw-bolder flux-clair rounded-pill my-5">Informations utilisateur</h2>
+                {{ user_form.non_field_errors }}
+                <div>
+                    {{ user_form.last_name.label_tag }}
+                    {{ user_form.last_name }}
+                </div>
+
+                <div>
+                    {{ user_form.first_name.label_tag }}
+                    {{ user_form.first_name }}
+                </div>
+
+                <div>
+                    {{ user_form.username.label_tag }}
+                    {{ user_form.username }}
+                </div>
+
+                <div>
+                    {{ user_form.email.label_tag }}
+                    {{ user_form.email }}
+                </div>
+
+                <div>
+                    {{ user_form.phone.label_tag }}
+                    {{ user_form.phone }}
+                </div>
+
+                <div>
+                    {{ user_form.role.label_tag }}
+                    {{ user_form.role }}
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <h2 class="container fw-bolder flux-clair rounded-pill my-5">Profil utilisateur</h2>
+                {{ profile_form.non_field_errors }}
+                <div>
+                    {{ profile_form.start_point.label_tag }}
+                    {{ profile_form.start_point }}
+                </div>
+
+                <div>
+                    {{ profile_form.start_date.label_tag }}
+                    {{ profile_form.start_date }}
+                </div>
+
+                <div>
+                    {{ profile_form.arrival_date.label_tag }}
+                    {{ profile_form.arrival_date }}
+                </div>
+
+                <div>
+                    {{ profile_form.photo.label_tag }}
+                    {{ profile_form.photo }}
+                </div>
+
+                <br>
+                <div class="container fs-3 fw-light flux-clair my-3">► Êtes-vous conducteur ?</div>
+                <br>
+                <div class="container">
+                    <div>
+                        {{ profile_form.vehicule_marque.label_tag }}
+                        {{ profile_form.vehicule_marque }}
+                    </div>
+
+                    <div>
+                        {{ profile_form.vehicule_model.label_tag }}
+                        {{ profile_form.vehicule_model }}
+                    </div>
+
+                    <div>
+                        {{ profile_form.vehicule_place.label_tag }}
+                        {{ profile_form.vehicule_place }}
+                    </div>
+                </div>
+                <br>
+            </fieldset>
+        </div>
+            <br>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+    </div>
+
+    <div class="container d-flex super-marge-top"><span class="fw-bolder flux-clair d-flex justify-content-center align-items-center w-25 me-5">Déjà un compte ?</span> <a href="{% url 'login' %}" class="btn btn-primary text-decoration-none text-light">Connexion</a></div>
+
+</body>
+</html>
