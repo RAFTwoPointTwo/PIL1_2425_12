@@ -3,7 +3,7 @@ from pathlib import Path
 from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_URL, MEDIA_ROOT, LOGIN_URL, LOGIN_REDIRECT_URL, \
     LOGOUT_REDIRECT_URL, STATICFILES_DIRS
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+#AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,11 +73,12 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pil1_2425_12',
+        'NAME': 'une_autre',
         'USER': 'root',
-        'PASSWORD':'rafcode7',
-        'POST':'localhost',
-        'PORT':'3306'
+        'PASSWORD':'onlyjesus',
+        'HOST':'localhost',
+        'PORT':'3306',
+        
     }
 }
 
@@ -128,4 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'profil'
 LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
 

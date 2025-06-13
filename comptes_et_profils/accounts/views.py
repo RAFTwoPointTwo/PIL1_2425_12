@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm, ProfileForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView,LogoutView
+from .forms import CustomLoginForm , ProfileForm
 
 
 def home(request):
@@ -19,8 +21,10 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
-            login(request, user)
             return redirect('principale')
+        else:
+            print(f"user_form errors : {user_form.errors}")
+            print(f"prof errors : {profile_form.errors}")
     else:
         user_form = CustomUserCreationForm()
         profile_form = ProfileForm()
@@ -41,9 +45,22 @@ def profil_edit(request):
             form.save()
             return redirect('profil')
     else:
+        
         form = ProfileUpdateForm(instance=profile)
         return render(request , 'profil_edit.html' , {'form' : form})
 
 '''def map_shower():
 '''
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+class CustomLoginView(LoginView):
+    template_name='login.html'
+    authentification_form=CustomLoginForm
+
+class CustomLogoutView(LogoutView):
+    next_page='/login/'    
+
 
