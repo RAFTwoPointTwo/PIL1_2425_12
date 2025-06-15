@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_URL, MEDIA_ROOT, LOGIN_URL, LOGIN_REDIRECT_URL, \
-    LOGOUT_REDIRECT_URL, STATICFILES_DIRS
+#from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_URL, MEDIA_ROOT, LOGIN_URL, LOGIN_REDIRECT_URL, \
+    #LOGOUT_REDIRECT_URL, STATICFILES_DIRS
 
-#AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +24,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailBackend',
+]
+
 
 # Application definition
 
@@ -34,8 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'channels'
 ]
+
+ASGI_APPLICATION = 'comptes_et_profils.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,9 +87,9 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'une_autre',
+        'NAME': 'test8',
         'USER': 'root',
-        'PASSWORD':'onlyjesus',
+        'PASSWORD':'rafcode7',
         'HOST':'localhost',
         'PORT':'3306',
         
@@ -117,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+#STATIC_URL = 'static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR , 'static')]
 
@@ -126,10 +140,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR , 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'profil'
-LOGOUT_REDIRECT_URL = 'login'
+#LOGIN_URL = 'login'
+#LOGIN_REDIRECT_URL = 'profil'
+#LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
-
-

@@ -1,0 +1,146 @@
+<!--{% load static %}-->
+<!--<html lang="fr">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Liste des messages</title>-->
+<!--    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    # TEMPLATE HTML (liste de conversations)-->
+
+<!--<div class="container mt-5">-->
+<!--    <h2>Mes Conversations</h2>-->
+<!--    <div class="list-group">-->
+<!--        {% for conv in conversations %}-->
+<!--        <a href="{% url 'chat_room' conv.id %}" class="list-group-item list-group-item-action">-->
+<!--            Conversation avec-->
+<!--            {% if conv.participant1 == request.user %}-->
+<!--                {{ conv.participant2.username }}-->
+<!--            {% else %}-->
+<!--                {{ conv.participant1.username }}-->
+<!--            {% endif %}-->
+<!--        </a>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+<!--    <div class="container"><a href="{% url 'chat_room' %}" class="btn btn-primary">Retourner dans la messagerie</a></div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+#template
+
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des messages</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<h1>Messagerie</h1>
+
+<div style="display: flex; height: 70vh;">
+    <!-- Liste des conversations -->
+    <div style="width: 30%; border-right: 1px solid #ccc; overflow-y: auto;">
+        <h3>Contacts</h3>
+        <ul>
+            {% for user in request.user.get_all_contacts %}
+            <li>
+                <a href="{% url 'chat' user.email %}">
+                    {{ user.email }}
+                    {% if user.unread_count %}
+                    ({{ user.unread_count }})
+                    {% endif %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Zone de chat -->
+    <div style="width: 70%; padding: 10px; display: flex; flex-direction: column;">
+        {% if active_recipient %}
+        <h3>Conversation avec {{ active_recipient.email }}</h3>
+
+        <div id="chat-messages" style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px; border: 1px solid #eee; padding: 10px;">
+            {% for message in conversations %}
+            {% if message.sender == request.user or message.receiver == request.user %}
+            <div style="margin-bottom: 10px; text-align: {% if message.sender == request.user %}right{% else %}left{% endif %};">
+                <div style="display: inline-block; padding: 5px 10px; background-color: {% if message.sender == request.user %}#dcf8c6{% else %}#f1f0f0{% endif %}; border-radius: 10px;">
+                    {{ message.content }}
+                </div>
+                <div style="font-size: 0.8em; color: #777;">
+                    {{ message.timestamp|date:"H:i" }}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <form method="post" id="message-form">
+            {% csrf_token %}
+            {{ form.content }}
+            <input type="hidden" name="receiver" value="{{ active_recipient.id }}">
+            <button type="submit" style="margin-top: 10px;">Envoyer</button>
+        </form>
+        {% else %}
+        <p>Sélectionnez un contact pour commencer à discuter</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- JavaScript pour le temps réel -->
+<script>
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/' + '{{ active_recipient.email|default_if_none:"" }}' + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatMessages = document.querySelector('#chat-messages');
+
+        const messageDiv = document.createElement('div');
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.style.textAlign = data.sender === '{{ request.user.email }}' ? 'right' : 'left';
+
+        const contentDiv = document.createElement('div');
+        contentDiv.style.display = 'inline-block';
+        contentDiv.style.padding = '5px 10px';
+        contentDiv.style.backgroundColor = data.sender === '{{ request.user.email }}' ? '#dcf8c6' : '#f1f0f0';
+        contentDiv.style.borderRadius = '10px';
+        contentDiv.textContent = data.message;
+
+        const timeDiv = document.createElement('div');
+        timeDiv.style.fontSize = '0.8em';
+        timeDiv.style.color = '#777';
+        timeDiv.textContent = new Date(data.timestamp).toLocaleTimeString();
+
+        messageDiv.appendChild(contentDiv);
+        messageDiv.appendChild(timeDiv);
+        chatMessages.appendChild(messageDiv);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#message-form').onsubmit = function(e) {
+        e.preventDefault();
+        const messageInput = document.querySelector('#id_content');
+        const message = messageInput.value;
+
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'sender': '{{ request.user.email }}',
+            'receiver': '{{ active_recipient.email|default_if_none:"" }}'
+        }));
+
+        messageInput.value = '';
+    };
+</script>
+</body>
+</html>

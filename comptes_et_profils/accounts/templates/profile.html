@@ -1,0 +1,18 @@
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+</head>
+<body>
+    <h2>Profil utilisateur</h2>
+    <p>Nom : {{ request.user.nom }}</p>
+    <p>Prénom : {{ request.user.prenom }}</p>
+    <p>Rôle : {{ request.user.role }}</p>
+
+    <h3>Informations supplémentaires</h3>
+    <p>Heure de départ habituel : {{ profile.heure_depart_habituel }}</p>
+    <!-- Autres champs du profil -->
+
+</body>
+</html>

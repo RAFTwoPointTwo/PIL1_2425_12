@@ -1,0 +1,86 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">-->
+<!--</head>-->
+<!--<body>-->
+<!--        #BOX HTML DE CHAT-->
+
+<!--<div class="container mt-5">-->
+<!--    <div class="card">-->
+<!--        <div class="card-header">-->
+<!--            Conversation avec-->
+<!--            {% if conversation.participant1 == request.user %}-->
+<!--                {{ conversation.participant2.username }}-->
+<!--            {% else %}-->
+<!--                {{ conversation.participant1.username }}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--        <div class="card-body" id="chat-messages" style="height: 400px; overflow-y: scroll;">-->
+<!--            {% for message in messages %}-->
+<!--                <div class="mb-2 {% if message.sender == request.user %}text-end{% endif %}">-->
+<!--                    <strong>{{ message.sender.username }}:</strong> {{ message.content }}-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--        <div class="card-footer">-->
+<!--            <input type="text" id="chat-message-input" class="form-control" placeholder="Tapez votre message...">-->
+<!--            <button id="chat-message-submit" class="btn btn-primary mt-2">Envoyer</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--        <div class="container"><a href="{% url 'chat_index' %}" class="btn btn-primary">Mes conversations</a></div>-->
+
+<!--        <script src="{% static 'js/chat.js' %}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!-- accounts/templates/accounts/chat_room.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+<h1>Chat pour la conversation {{ conversation_id }}</h1>
+
+<div id="chat-log"></div>
+<input id="chat-message-input" type="text" size="100">
+<button id="chat-message-submit">Envoyer</button>
+
+<script>
+    const conversationId = {{ conversation_id }};
+    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    const chatSocket = new WebSocket(
+        ws_scheme + '://' + window.location.host +
+        '/ws/chat/' + conversationId + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.getElementById('chat-log');
+        chatLog.innerHTML += `<p><strong>${data.sender}:</strong> ${data.message}</p>`;
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.getElementById('chat-message-submit').onclick = function(e) {
+        const inputElem = document.getElementById('chat-message-input');
+        const message = inputElem.value;
+        const sender = 'Utilisateur';  // adapte selon l'utilisateur connecté
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'sender': sender
+        }));
+        inputElem.value = '';
+    };
+</script>
+</body>
+</html>
