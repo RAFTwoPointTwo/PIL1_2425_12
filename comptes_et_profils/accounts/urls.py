@@ -13,9 +13,9 @@ urlpatterns = [
     path('reset/done/' , auth_views.PasswordResetCompleteView.as_view(template_name = 'password_reset_complete.html') , name = 'password_reset_complete'),
    # path('profil/' , views.profil , name = 'profil'),
     path('principale/' , views.principale , name = 'principale'),
-    path('login/',CustomLoginView, name='login'),
-    #path('logout/',CustomLogoutView.as_view(), name='logout')
-    path('compte_cree/' , views.created_account , name = 'compte_cree'),
+    #path('login/',CustomLoginView, name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('/compte_cree' , views.created_account , name = 'compte_cree'),
     path('chat/<str:room_name>/', views.chat_room, name='chat_room'),
     path('matching_page/', views.matching_page, name='matching_page'),
     path('enregistrer/', views.enregistrer_trajet, name='enregistrer')

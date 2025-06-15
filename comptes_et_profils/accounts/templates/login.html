@@ -17,11 +17,11 @@
             </div>
         {% endif %}
 
-        <form method="POST" action="{% url 'principale' %}" novalidate>
+        <form method="POST" action="{% url 'login' %}" novalidate>
             {% csrf_token %}
             <div class="mb-3">
-                {{ form.email.label_tag }}
-                {{ form.email}}
+                {{ form.username.label_tag }}
+                {{ form.username}}
             </div>
             <div class="mb-3">
                 {{ form.password.label_tag }}

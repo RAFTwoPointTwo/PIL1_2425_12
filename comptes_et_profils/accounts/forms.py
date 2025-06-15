@@ -23,44 +23,7 @@ from .models import CustomUser
             field.label_suffix = ''
 
 
-class ProfileForm(forms.ModelForm):
-    start_date = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}),
-        input_formats=['%H:%M']
-    )
-    arrival_date = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}),
-        input_formats=['%H:%M']
-    )
 
-    class Meta:
-        model = Profile
-        exclude = ['user']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control w-50'})
-
-
-class ProfileUpdateForm(forms.ModelForm):
-    start_date = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}),
-        input_formats=['%H:%M']
-    )
-    arrival_date = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}),
-        input_formats=['%H:%M']
-    )
-
-    class Meta:
-        model = ProfileUpdate
-        exclude = ['user']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control w-50'})
 
 
 class CustomLoginForm(AuthenticationForm):
@@ -68,17 +31,30 @@ class CustomLoginForm(AuthenticationForm):
 '''password = forms.CharField(label = "Mot de passe" , widget=forms.PasswordInput)'''
 
 
-class CustomLoginForm(forms.Form):
-    """Formulaire de connexion personnalisé."""
-    email = forms.EmailField(label="Email")
-    password = forms.CharField(widget=forms.PasswordInput)
+'''class CustomLoginForm(forms.Form):
+    username = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={'autofocus': True})
+    )'''
+'''email = forms.EmailField(label="Email")'''
+'''password = forms.CharField(widget=forms.PasswordInput)'''
+
+class CustomLoginForm(AuthenticationForm):
+    username = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={'autofocus': True, 'placeholder': 'exemple@domaine.com'})
+    )
+    password = forms.CharField(
+        label="Mot de passe",
+        widget=forms.PasswordInput(attrs={'placeholder': '••••••••'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 
 class CustomUserForm(forms.ModelForm):
-    '''username = forms.CharField(max_length=150, label="Nom d'utilisateur",
-                               error_messages={})
-    password = forms.CharField(widget=forms.PasswordInput)'''
     start_date = forms.TimeField(
         label="Heure de départ habituelle",
         widget=forms.TimeInput(attrs={'type': 'time'}),
@@ -107,7 +83,7 @@ class CustomUserForm(forms.ModelForm):
 
     username = forms.CharField(
         label="Nom d'utilisateur",
-        max_length=50,
+        max_length=150,
         error_messages={
         }
     )
@@ -148,13 +124,6 @@ class CustomUserForm(forms.ModelForm):
         }
     )
 
-    arrival_point = forms.CharField(
-        label="Point d'arrivée",
-        error_messages={
-            'invalid': 'Les informations de ce champ ne peuvent pas dépasser 50 caracteres.'
-        }
-    )
-
     vehicule_marque = forms.CharField(
         label="Marque de votre véhicule",
         required=False,
@@ -179,7 +148,7 @@ class CustomUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['nom', 'prenom', 'username', 'password', 'email', 'numero_de_telephone', 'role' , 'start_point' , 'arrival_point' , 'start_date' , 'arrival_date' , 'vehicule_marque' , 'vehicule_model' , 'vehicule_place']
+        fields = ['nom', 'prenom', 'username', 'password', 'email', 'numero_de_telephone', 'role' , 'start_point' , 'start_date' , 'arrival_date' , 'vehicule_marque' , 'vehicule_model' , 'vehicule_place']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
