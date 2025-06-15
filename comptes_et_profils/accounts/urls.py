@@ -17,4 +17,6 @@ urlpatterns = [
     #path('logout/',CustomLogoutView.as_view(), name='logout')
     path('compte_cree/' , views.created_account , name = 'compte_cree'),
     path('chat/<str:room_name>/', views.chat_room, name='chat_room'),
+    path('matching_page/', views.matching_page, name='matching_page'),
+    path('enregistrer/', views.enregistrer_trajet, name='enregistrer')
 ]

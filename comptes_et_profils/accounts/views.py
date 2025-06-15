@@ -5,6 +5,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect , get_object_or_404
 '''from .models import Message'''
 from django.db import models
+from django.http import JsonResponse
+from .models import Trajet
+import json
+
 
 
 def principale(request):
@@ -154,3 +158,22 @@ class CustomLogoutView(LogoutView):
 '''@login_required'''
 def chat_room(request, room_name):
     return render(request, 'chat_room.html', {'room_name': room_name})
+
+def matching_page(request):
+    return render(request, 'matching_page.html')
+
+from django.shortcuts import render
+
+
+
+def enregistrer_trajet(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        trajet = Trajet.objects.create(
+            start_lat=data.get('start_lat'),
+            start_lng=data.get('start_lng'),
+            end_lat=data.get('end_lat'),
+            end_lng=data.get('end_lng')
+        )
+        return JsonResponse({'message': "Trajet enregistré avec succès !"})
+    return JsonResponse({'error': "Méthode non autorisée"}, status=405)
