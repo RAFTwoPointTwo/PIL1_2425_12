@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
+<<<<<<< HEAD
 <div class="container mt-4">
     <h2>Choisissez un point de départ</h2>
     {% if message %}
@@ -15,6 +16,17 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endif %}
+=======
+    <h4>Choisissez uniquement le point de départ (vert). Le point d'arrivée est déjà défini.</h4>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Page de Matching</h2>
+                <p>Cette page vous permet de sélectionner un point de départ sur la carte. Le point d’arrivée est fixe.</p>
+            </div>
+        </div>
+>>>>>>> cbaaf95 (Mot de passe oublié)
 
 
     <form method="post">
@@ -30,9 +42,18 @@
         <div id="map" style="height: 500px;"></div>
         <p class="text-danger mt-2" id="error-msg"></p>
 
+<<<<<<< HEAD
         <button type="submit" class="btn btn-success mt-3">Valider le trajet</button>
     </form>
 </div>
+=======
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([6.4970, 2.6030], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+>>>>>>> cbaaf95 (Mot de passe oublié)
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
