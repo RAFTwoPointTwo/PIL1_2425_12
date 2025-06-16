@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'une_data',
+        'NAME': 'test12',
         'USER': 'root',
-        'PASSWORD':'onlyjesus',
+        'PASSWORD':'rafcode7',
         'HOST':'localhost',
         'PORT':'3306',
         'OPTIONS': {
@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length' : 8,},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

@@ -16,7 +16,6 @@
                 Email ou mot de passe invalide.
             </div>
         {% endif %}
-<!--        action="{% url 'login' %}" novalidate-->
         <form method="POST" action="{% url 'login' %}" >
             {% csrf_token %}
             <div class="mb-3">
@@ -26,11 +25,9 @@
 
             </div>
             <div class="mb-3">
-<!--                {{ form.password.label_tag }}-->
-<!--                {{ form.password}}-->
                 <label for="password" class="form-label">Mot de passe</label>
                 <span></span>
-                <input id="password" type="password" name="password" class="form-control" required>
+                <input id="password" type="password" name="password" class="form-control" minlength="8" required>
 
 
 

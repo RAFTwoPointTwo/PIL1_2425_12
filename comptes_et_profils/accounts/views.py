@@ -1,15 +1,13 @@
 from django.contrib.auth import login , get_user_model , authenticate
 from .forms import CustomUserForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render, redirect , get_object_or_404
-from django.db import models
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Trajet,CustomUser
-from .models import Trajet
 from django.contrib import messages
 from .models import Message
-from .forms import MessageForm
+from .forms import MessageForm , TrajetForm
 import json
 
 
@@ -37,9 +35,6 @@ def profil(request):
     profile = request.user.profile
     return render(request, 'profil.html', {'profile': profile})
 
-
-
-
 User = get_user_model()
 
 def login_view(request):
@@ -60,14 +55,8 @@ class CustomLogoutView(LogoutView):
     next_page = '/login/'
 
 
-'''@login_required'''
-def chat_room(request, room_name):
-    return render(request, 'chat_room.html', {'room_name': room_name})
-
 def matching_page(request):
     return render(request, 'matching_page.html')
-
-from django.shortcuts import render
 
 
 def enregistrer_trajet(request):
@@ -102,10 +91,6 @@ def send_message(request):
     return render(request, 'send_message.html', {'form': form})
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import TrajetForm
-
 @login_required
 def choisir_trajet(request):
     message = None
@@ -124,5 +109,3 @@ def choisir_trajet(request):
         'form': form,
         'message': message
     })
-
-

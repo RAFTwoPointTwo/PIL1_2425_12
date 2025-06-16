@@ -1,13 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-
-
 from .models import Message,CustomUser
-
-
-
-
 
 class CustomUserForm(forms.ModelForm):
     start_date = forms.TimeField(
@@ -45,6 +39,7 @@ class CustomUserForm(forms.ModelForm):
 
     password = forms.CharField(
         label="Mot de passe",
+        min_length=8,
         widget=forms.PasswordInput,
         error_messages={
         }
@@ -118,26 +113,14 @@ class CustomUserForm(forms.ModelForm):
             elif field_name == 'vehicule_place':
                 field.widget.attrs['placeholder'] = "Renseignez ce champ uniquement si vous êtes un conducteur"
 
-    '''def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-            return user'''
-
     def save(self, commit=True):
         user = super().save(commit=False)
-        # Hashage du mot de passe avant la sauvegarde
         password = self.cleaned_data["password"]
         if password:
             user.set_password(password)
         if commit:
             user.save()
         return user
-
-
-
-            #Forms
-
 
 
 class MessageForm(forms.ModelForm):
