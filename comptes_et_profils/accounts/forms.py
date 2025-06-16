@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
-from .models import Message,CustomUser,Matching
+from .models import Message,CustomUser
 
 
 
@@ -197,7 +197,7 @@ class MessageForm(forms.ModelForm):
             'recipient': forms.Select(attrs={'class': 'form-control'}),
         }
 
-
+'''
 class MatchingForm(forms.ModelForm):
     class Meta:
         model=Matching
@@ -207,4 +207,4 @@ class MatchingForm(forms.ModelForm):
             widget=forms.TimeInput(attrs={'type': 'time'}),
             input_formats=['%H:%M']
         )
-       
+       '''

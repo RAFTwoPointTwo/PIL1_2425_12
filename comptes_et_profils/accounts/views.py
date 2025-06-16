@@ -5,19 +5,17 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect , get_object_or_404
 from django.db import models
 from django.http import JsonResponse
-<<<<<<< HEAD
 from .models import Trajet,CustomUser
-
-=======
 from .models import Trajet
 from django.contrib import messages
->>>>>>> 6b197e8642647d1b309759de1ce05eb2664d825e
+from .models import Message
+from .forms import MessageForm
 import json
 
 
 @login_required
 def principale(request):
-    return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()})
+    return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()[:3]})
 
 def register(request):
     if request.method == 'POST':
@@ -144,22 +142,18 @@ def enregistrer_trajet(request):
         trajet = Trajet.objects.create(
             start_lat=data.get('start_lat'),
             start_lng=data.get('start_lng'),
-            end_lat=data.get('end_lat'),
-            end_lng=data.get('end_lng')
+            #end_lat=data.get('end_lat'),
+            #end_lng=data.get('end_lng')
         )
+        trajet.save()
         return JsonResponse({'message': "Trajet enregistré avec succès !"})
     return JsonResponse({'error': "Méthode non autorisée"}, status=405)
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Message
-from .forms import MessageForm
-
 @login_required
 def inbox(request):
     messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
-    return render(request, 'messagerie/inbox.html', {'messages': messages})
+    return render(request, 'inbox.html', {'messages': messages})
 
 @login_required
 def send_message(request):
@@ -172,7 +166,4 @@ def send_message(request):
             return redirect('inbox')
     else:
         form = MessageForm()
-    return render(request, 'messagerie/send_message.html', {'form': form})
-
-def listes_des_utilisateurs(request):
-    return render(request, 'listes_des_utilisateurs.html',{'utilisateurs': CustomUser.objects.all()})
+    return render(request, 'send_message.html', {'form': form})

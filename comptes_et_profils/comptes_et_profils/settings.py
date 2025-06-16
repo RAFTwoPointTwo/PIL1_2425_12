@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test9',
+        'NAME': 'test10',
         'USER': 'root',
         'PASSWORD':'rafcode7',
         'HOST':'localhost',

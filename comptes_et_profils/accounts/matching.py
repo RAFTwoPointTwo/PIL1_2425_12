@@ -1,4 +1,4 @@
-from .models import CustomUser,Matching, Trajet
+'''from .models import CustomUser,Matching, Trajet
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -14,4 +14,4 @@ def matching(request):
         if trajet.exists():
             for t in trajet:
                 if t.start_point == utilisateur.start_point and t.start_date >= datetime.datetime.now().time():
-                    groupe1.append(t)
+                    groupe1.append(t)'''

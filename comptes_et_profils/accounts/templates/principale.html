@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>Document</title>
 
     <style>
@@ -95,6 +96,25 @@
             width: 100%;
             
         }
+
+        .flux-clair{
+            border-radius: 4px;
+            background-image: -webkit-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: -moz-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image:-o-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flux{
+            background: linear-gradient(90deg,rgb(1, 56, 255),rgb(27, 248, 3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .green-set{
+            color: #22b452;
+        }
             
 
         
@@ -108,7 +128,7 @@
    <header>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e0f8ea;" data-bs-theme="light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Logisticar</a>
+      <a class="navbar-brand flux fw-bolder fs-1" href="#"><i class="bi bi-car-front px-3"></i>Logisticar</a>
 
       
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -131,7 +151,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'listes_des_utilisateurs' %}">
+            <a class="nav-link" href="{% url 'send_message' %}">
               <i class="bi bi-chat-dots-fill"></i> Messagerie
             </a>
           </li>
@@ -154,8 +174,6 @@
             <p>Partagez vos trajets, réduisez vos coûts et faites de nouvelles rencontres</p>
         </div>
     </div>
-
-
 
    <div class="container-lg text-center attribut" >
 
@@ -194,19 +212,18 @@
                           
                               <div class="col attribut-6">
                                    <div class="row row-cols-2" >
-                                       <h5 class="text-success">{{ utilisant.username }}</h5>
-                                       <h5 class="text-success">{{ utilisant.role }}</h5>
+                                       <h5 class="flux p-3">{{ utilisant.username }}</h5>
+                                       <h5 class="flux p-3">{{ utilisant.role }}</h5>
 
                                    </div>       
                 
                                    <p>
-                                      <strong>Nom :</strong> {{ utilisant.nom }} {{ utilisant.prenom }}<br>
-                                      <strong>Trajet habituel :</strong><br>
-                                      Départ de {{ utilisant.start_point }} à {{ utilisant.arrival_point }}<br> 
-                                      Heure de départ : {{ utilisant.start_date }}
-                                      Heure d'arrivée : {{ utilisant.arrival_date }}<br>
-                                      <strong>Email :</strong> {{ utilisant.email }}<br>
-                                      <button href="{% url 'send_message' %}"  class="btn btn-success">DISCUSSION</button>
+                                      <div class="p-3"><span class="fw-bolder green-set">Nom</span> : <span class="text-success">{{ utilisant.nom }} {{ utilisant.prenom }}</span></div>
+                                     <div class="p-3"> <span class="fw-bolder green-set">Départ de</span> <span class="text-success">{{ utilisant.start_point }}</span> <span class="fw-bolder">à</span> UAC</div>
+                                      <div class="p-3"><span class="fw-bolder green-set">Heure de départ</span> : <span class="text-success">{{ utilisant.start_date }}</span></div>
+                                      <div class="p-3"><span class="fw-bolder green-set">Heure d'arrivée</span> : <span class="text-success">{{ utilisant.arrival_date }}</span></div>
+                                    <div class="p-3"><span class="fw-bolder green-set">Email</span> : <span class="text-success">{{ utilisant.email }}</span></div>
+
                                   </p>
                               </div>
                           
