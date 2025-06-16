@@ -154,28 +154,33 @@ class Message(models.Model):
     def __str__(self):
         return f"De {self.sender} à {self.recipient} - {self.timestamp.strftime('%d/%m/%Y %H:%M')}"
     
+class Discussion(models.Model):
+    ancients_messages = models.ManyToManyField(Message, related_name='discussions')
+    nouveau_message =models.TextField()
+
+    
 
 
 
 
 
 class Trajet(models.Model):
-   # paasger = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
     start_lat = models.FloatField()
     start_lng = models.FloatField()
-    end_lat = models.FloatField()
-    end_lng = models.FloatField()
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Trajet du {self.created_at.strftime('%Y-%m-%d %H:%M')}"
 
 
-'''class Matching(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class Matching(models.Model):
+    
+    
     trajet = models.ForeignKey(Trajet, on_delete=models.CASCADE)
     heure_de_depart = models.TimeField()
-    date_de_depart = models.DateField()
+    
 
     def __str__(self):
-        return f"Matching pour {self.user.username} le {self.matched_at.strftime('%Y-%m-%d %H:%M')}"'''
+        return f"Matching pour {self.user.username} le {self.matched_at.strftime('%Y-%m-%d %H:%M')}"

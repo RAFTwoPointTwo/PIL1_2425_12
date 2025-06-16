@@ -3,95 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <title>Matching</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="{% static 'css/stylematching.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 </head>
 <body>
-    <h4>Choisissez le point de départ (vert) et d'arrivée (rouge)</h4>
+    <h4>Choisissez uniquement le point de départ (vert). Le point d'arrivée est déjà défini.</h4>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <h2>Page de Matching</h2>
-                <p>Cette page vous permet de sélectionner un point de départ et un point d'arrivée sur la carte. Le point de départ sera marqué en vert et le point d'arrivée en rouge. Une ligne bleue sera tracée entre les deux points.</p>
+                <p>Cette page vous permet de sélectionner un point de départ sur la carte. Le point d’arrivée est fixe.</p>
             </div>
         </div>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12 ">
-                <h3>Instructions</h3>
-                <p>1. Cliquez sur la carte pour sélectionner le point de départ (marqué en vert).</p>
-                <p>2. Cliquez à nouveau pour sélectionner le point d'arrivée (marqué en rouge).</p>
-                <p>3. La ligne bleue tracera le chemin entre les deux points.</p>
-                <p>4. Cliquez sur "Recommencer" pour effacer la carte et recommencer.</p>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Instructions</h3>
+                    <p>1. Cliquez sur la carte pour choisir votre point de départ (marqué en vert).</p>
+                    <p>2. Le point d’arrivée fixe (marqué en rouge) sera relié au départ par une ligne bleue.</p>
+                    <p>3. Cliquez sur "Recommencer" pour effacer et recommencer.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" onclick="resetMap()">Recommencer</button>
+                    <div id="map" style="height: 500px;"></div>
+                    <p id="resultat" class="mt-3"></p>
+                </div>
             </div>
         </div>
     </div>
-  </div>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-primary" onclick="resetMap()">Recommencer</button>
-                <div id="map"></div>
-                <p id="resultat" class="mt-3"></p>
-            </div>
-        </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        var map = L.map('map').setView([6.4970, 2.6030], 13);
+        const map = L.map('map').setView([6.4970, 2.6030], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
         let startMarker = null;
-        let endMarker = null;
         let line = null;
-        let clicks = 0;
         let coords = {};
+
+        // Coordonnées fixes pour le point d’arrivée
+        const endCoords = {
+            lat: 6.5000,
+            lng: 2.6100
+        };
+
+        // Affiche le marqueur d’arrivée une seule fois au chargement
+        const endMarker = L.marker([endCoords.lat, endCoords.lng], {
+            draggable: false,
+            icon: L.icon({
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                iconSize: [32, 32]
+            })
+        }).addTo(map).bindPopup("Arrivée").openPopup();
 
         function resetMap() {
             if (startMarker) map.removeLayer(startMarker);
-            if (endMarker) map.removeLayer(endMarker);
             if (line) map.removeLayer(line);
-            startMarker = endMarker = line = null;
-            clicks = 0;
+            startMarker = line = null;
             coords = {};
             document.getElementById("resultat").innerText = "";
         }
 
         map.on('click', function(e) {
             const { lat, lng } = e.latlng;
-            if (clicks === 0) {
-                if (startMarker) map.removeLayer(startMarker);
-                startMarker = L.marker([lat, lng], {
-                    draggable: false,
-                    icon: L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png', iconSize: [32, 32] })
-                }).addTo(map).bindPopup("Départ").openPopup();
-                coords.start_lat = lat;
-                coords.start_lng = lng;
-                clicks++;
-            } else if (clicks === 1) {
-                if (endMarker) map.removeLayer(endMarker);
-                endMarker = L.marker([lat, lng], {
-                    draggable: false,
-                    icon: L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', iconSize: [32, 32] })
-                }).addTo(map).bindPopup("Arrivée").openPopup();
-                coords.end_lat = lat;
-                coords.end_lng = lng;
-                clicks++;
 
-                // tracer une ligne
-                line = L.polyline([
-                    [coords.start_lat, coords.start_lng],
-                    [coords.end_lat, coords.end_lng]
-                ], { color: 'blue' }).addTo(map);
-
-                envoyerCoordonnees();
-            } else {
-                alert("Tu as déjà sélectionné deux points. Clique sur 'Recommencer' si tu veux modifier.");
+            if (startMarker) {
+                alert("Le point de départ est déjà sélectionné. Cliquez sur 'Recommencer' pour modifier.");
+                return;
             }
+
+            startMarker = L.marker([lat, lng], {
+                draggable: false,
+                icon: L.icon({
+                    iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    iconSize: [32, 32]
+                })
+            }).addTo(map).bindPopup("Départ").openPopup();
+
+            coords.start_lat = lat;
+            coords.start_lng = lng;
+            coords.end_lat = endCoords.lat;
+            coords.end_lng = endCoords.lng;
+
+            // Tracer une ligne
+            line = L.polyline([
+                [lat, lng],
+                [endCoords.lat, endCoords.lng]
+            ], { color: 'blue' }).addTo(map);
+
+            envoyerCoordonnees();
         });
 
         function envoyerCoordonnees() {
@@ -115,6 +126,5 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
 </body>
 </html>

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <title>Document</title>
 
@@ -105,38 +106,54 @@
 <body>
     
    <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary " style="background-color: #e3f2fd;" data-bs-theme="light"> 
-     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-     </button>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e0f8ea;" data-bs-theme="light">
     <div class="container-fluid">
-     <a class="navbar-brand" href="#">Logisticar</a>
-     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#">Logisticar</a>
+
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Comment ça marche</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'matching_page' %}">Partager un trajet</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" href="#">Messagerie</a>
-        </li>
+      </button>
 
-
-         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Mon compte</a>
-        </li>
-      </ul>
-
+      <!-- Menu -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+              <i class="bi bi-question-circle-fill"></i> Comment ça marche
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'matching_page' %}">
+              <i class="bi bi-share-fill"></i> Partager un trajet
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listes_des_utilisateurs' %}">
+              <i class="bi bi-chat-dots-fill"></i> Messagerie
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">
+              <i class="bi bi-person-circle"></i> Mon compte
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-   </nav>
-   </header>
+  </nav>
+</header>
+
+    <div class="container-lg text-center attribut-9">
+        <div class="row">
+            <h1 class="attribut-8">Bienvenue sur Logisticar</h1>
+        </div>
+        <div class="row">
+            <p>Partagez vos trajets, réduisez vos coûts et faites de nouvelles rencontres</p>
+        </div>
+    </div>
 
 
 
@@ -148,25 +165,20 @@
        <form method="POST" action="{% url 'register' %}">
            {% csrf_token %}
            <div class="row attribut-1">
-               <div class="col-md">
-                   <span>Départ</span><br>
-                   <input class="attribut-3" type="text" name="point_de _depart">
-               </div>
+                <div class="col-md">
+                     <span>Point de départ</span><br>
+                     <input class="attribut-3" type="text" name="point_de_depart" placeholder="Ex: Abomey-Calavi">
+                </div>
+
+           
 
                <div class="col-md">
-                   <span>Arrivée</span><br>
-                   <input class="attribut-3" type="text" name="point_de_arrivée">
-               </div>
-
-               <div class="col-md">
-                   <span>Date</span><br>
-                   <input class="attribut-3" type="date" name="date_de _depart">
-               </div>
-
-               <div class="col-md">
-                   <span>Heure de départ</span><br>
-                   <input class="attribut-3" type="datetime" name="point_de _depart">
-               </div>
+                     <span>Point d'arrivée</span><br>
+                     <input class="attribut-3" type="text" name="point_d_arrivee" placeholder="Ex: Cotonou">
+                </div>
+                <div class="col-md">
+                        <span>Heure de départ</span><br>
+                        <input class="attribut-3" type="time" name="heure_de_depart">
                <div class="row-cols-auto attribut-2"><button class="attribut-4 btn" type="submit">Valider</button></div>
            </div>
        </form>
@@ -176,17 +188,36 @@
     <div class="container text-center">
         <div class="row"><p>Rejoignez une aventure incroyable et faites vous de nouvelles experiences</p></div>
         <div class="row">
-            <div class="col attribut-6">
-                <p>Utilisateur 1</p>
-            </div>
-            <div class="col attribut-6">
-               <p>Utilisateur 2</p>
-            </div>
-            <div class="col attribut-6">
-               <p>Utilisateur 3</p>
-            </div>
-        </div>
-    </div>
+            <div class="container-lg ">
+                             <div class="row">
+                             {% for utilisant in utilisateurs %}
+                          
+                              <div class="col attribut-6">
+                                   <div class="row row-cols-2" >
+                                       <h5 class="text-success">{{ utilisant.username }}</h5>
+                                       <h5 class="text-success">{{ utilisant.role }}</h5>
+
+                                   </div>       
+                
+                                   <p>
+                                      <strong>Nom :</strong> {{ utilisant.nom }} {{ utilisant.prenom }}<br>
+                                      <strong>Trajet habituel :</strong><br>
+                                      Départ de {{ utilisant.start_point }} à {{ utilisant.arrival_point }}<br> 
+                                      Heure de départ : {{ utilisant.start_date }}
+                                      Heure d'arrivée : {{ utilisant.arrival_date }}<br>
+                                      <strong>Email :</strong> {{ utilisant.email }}<br>
+                                      <button href="{% url 'send_message' %}"  class="btn btn-success">DISCUSSION</button>
+                                  </p>
+                              </div>
+                          
+                            {% empty %}
+                         <p>Aucun utilisateur trouvé.</p>
+                            {% endfor %}
+
+                        </div>    
+            </div>      
+        </div>   
+    </div>     
 
     <div class="container-xl text-center">
 
@@ -236,7 +267,7 @@
 
    
 
-
-    <script src="{% static 'css/bootstrap.bundle.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

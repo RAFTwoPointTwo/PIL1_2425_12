@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-from .views import CustomLoginView
+from .views import CustomLoginView,inbox, CustomLogoutView, send_message, chat_room, matching_page, enregistrer_trajet
 
 urlpatterns = [
     path('' , views.register , name = 'register'),
@@ -18,5 +18,8 @@ urlpatterns = [
     path('compte_cree/' , views.created_account , name = 'compte_cree'),
     path('chat/<str:room_name>/', views.chat_room, name='chat_room'),
     path('matching_page/', views.matching_page, name='matching_page'),
-    path('enregistrer/', views.enregistrer_trajet, name='enregistrer')
+    path('enregistrer/', views.enregistrer_trajet, name='enregistrer'),
+    path('messages/inbox/', views.inbox, name='inbox'),
+    path('messages/envoyer/', views.send_message, name='send_message'),
+    path('listes_des_utilisateurs/', views.listes_des_utilisateurs, name='listes_des_utilisateurs'),
 ]

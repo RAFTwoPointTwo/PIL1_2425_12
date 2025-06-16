@@ -3,7 +3,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
-from .models import CustomUser
+from .models import Message,CustomUser,Matching
+
+
+
 '''from .models import Message'''
 
 
@@ -206,13 +209,24 @@ class CustomUserForm(forms.ModelForm):
             #Forms
 
 
-'''class MessageForm(forms.ModelForm):
+
+class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['receiver', 'content']
+        fields = ['recipient', 'content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'recipient': forms.Select(attrs={'class': 'form-control'}),
+        }
 
-    def _init_(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(MessageForm, self)._init_(*args, **kwargs)
-        if user:
-            self.fields['receiver'].queryset = User.objects.exclude(id=user.id)'''
+
+class MatchingForm(forms.ModelForm):
+    class Meta:
+        model=Matching
+        fields= ['heure_de_depart','date_de_depart']
+        heure_de_depart = forms.TimeField(
+            label="Heure de départ",
+            widget=forms.TimeInput(attrs={'type': 'time'}),
+            input_formats=['%H:%M']
+        )
+       
