@@ -1,11 +1,12 @@
-from django.contrib.auth import login , authenticate
-from .forms import CustomLoginForm , CustomUserForm
+from django.contrib.auth import login , get_user_model , authenticate
+from .forms import CustomUserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect , get_object_or_404
 from django.db import models
 from django.http import JsonResponse
 from .models import Trajet
+from django.contrib import messages
 import json
 
 
@@ -73,7 +74,7 @@ def profil_edit(request):
     redirect_authenticated_user = True'''
 
 
-class CustomLoginView(LoginView):
+'''class CustomLoginView(LoginView):
     template_name = 'login.html'
     form_class = CustomLoginForm
     redirect_authenticated_user = True
@@ -87,7 +88,35 @@ class CustomLoginView(LoginView):
             return super().form_valid(form)
         else:
             form.add_error(None, "Email ou mot de passe incorrect.")
-            return self.form_invalid(form)
+            return self.form_invalid(form)'''
+
+
+'''def login_view(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        user = authenticate(request , email=email , password = password)
+        if user is not None:
+            login(request, user)
+            return redirect('principale')
+        else:
+            messages.error(request , "Email ou mot de passe Not valid")
+            return redirect('login')'''
+
+User = get_user_model()
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('principale')
+        else:
+            messages.error(request, "Email ou mot de passe incorrect.")
+
+    return render(request, 'login.html')
 
 
 class CustomLogoutView(LogoutView):

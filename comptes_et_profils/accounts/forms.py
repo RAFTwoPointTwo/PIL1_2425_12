@@ -39,7 +39,7 @@ class CustomLoginForm(AuthenticationForm):
 '''email = forms.EmailField(label="Email")'''
 '''password = forms.CharField(widget=forms.PasswordInput)'''
 
-class CustomLoginForm(AuthenticationForm):
+'''class CustomLoginForm(AuthenticationForm):
     username = forms.EmailField(
         label="Email",
         widget=forms.EmailInput(attrs={'autofocus': True, 'placeholder': 'exemple@domaine.com'})
@@ -50,7 +50,7 @@ class CustomLoginForm(AuthenticationForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)'''
 
 
 
@@ -163,12 +163,21 @@ class CustomUserForm(forms.ModelForm):
             elif field_name == 'vehicule_place':
                 field.widget.attrs['placeholder'] = "Renseignez ce champ uniquement si vous êtes un conducteur"
 
-    def save(self, commit=True):
+    '''def save(self, commit=True):
         user = super().save(commit=False)
         if commit:
             user.save()
-            return user
+            return user'''
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # Hashage du mot de passe avant la sauvegarde
+        password = self.cleaned_data["password"]
+        if password:
+            user.set_password(password)
+        if commit:
+            user.save()
+        return user
 
 
 
