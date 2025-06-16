@@ -6,10 +6,16 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.db import models
 from django.http import JsonResponse
 from .models import Trajet,CustomUser
+<<<<<<< HEAD
 from .models import Trajet
 from django.contrib import messages
 from .models import Message
 from .forms import MessageForm
+=======
+
+from .models import Trajet
+from django.contrib import messages
+>>>>>>> cbaaf95 (Mot de passe oublié)
 import json
 
 

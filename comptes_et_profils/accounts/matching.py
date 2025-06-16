@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from geopy.distance import geodesic
 from datetime import datetime, date
 from .models import Trajet, CustomUser
@@ -35,3 +36,30 @@ def matching(request):
 
     return matches
 
+=======
+from .models import Trajet, CustomUser, Matching
+import datetime
+import geopy
+import time
+
+passagers_compatibles = []
+conducteurs_compatibles = []
+
+def matching(request):
+    utilisateur = request.user
+    
+    # Déterminer si l'utilisateur est un conducteur ou un passager
+    if utilisateur.role == "conducteur":
+        for trajet in Trajet.objects.all():
+            voyageur = trajet.user
+            if voyageur.role == "passager" and voyageur.id != utilisateur.id:
+                passagers_compatibles.append(voyageur.id)
+
+    elif utilisateur.role == "passager":
+        for trajet in Trajet.objects.all():
+            conducteur = trajet.user
+            if conducteur.role == "conducteur" and conducteur.id != utilisateur.id:
+                conducteurs_compatibles.append(conducteur.id)
+
+    return {"passagers_compatibles": passagers_compatibles, "conducteurs_compatibles": conducteurs_compatibles}
+>>>>>>> cbaaf95 (Mot de passe oublié)

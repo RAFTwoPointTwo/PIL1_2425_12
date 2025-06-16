@@ -57,7 +57,7 @@ class Discussion(models.Model):
 
 
 class Trajet(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyager' )
     start_lat = models.FloatField()
     start_lng = models.FloatField()
     heure_depart = models.TimeField()
