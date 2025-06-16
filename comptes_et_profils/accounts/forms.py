@@ -7,54 +7,6 @@ from .models import Message,CustomUser
 
 
 
-'''from .models import Message'''
-
-
-'''class CustomUserCreationForm(UserCreationForm):
-    last_name = forms.CharField(required=True, label='Nom')
-    first_name = forms.CharField(required=True, label='Prénom')
-    username = forms.CharField(required=True, label="Nom d'utilisateur")
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'username', 'password1' , 'password2' , 'email')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control w-50'})
-            field.label_suffix = ''
-
-
-
-
-
-class CustomLoginForm(AuthenticationForm):
-    username = forms.EmailField(label="Email" , widget=forms.EmailInput(attrs={'autofocus': True}))'''
-'''password = forms.CharField(label = "Mot de passe" , widget=forms.PasswordInput)'''
-
-
-'''class CustomLoginForm(forms.Form):
-    username = forms.EmailField(
-        label="Email",
-        widget=forms.EmailInput(attrs={'autofocus': True})
-    )'''
-'''email = forms.EmailField(label="Email")'''
-'''password = forms.CharField(widget=forms.PasswordInput)'''
-
-'''class CustomLoginForm(AuthenticationForm):
-    username = forms.EmailField(
-        label="Email",
-        widget=forms.EmailInput(attrs={'autofocus': True, 'placeholder': 'exemple@domaine.com'})
-    )
-    password = forms.CharField(
-        label="Mot de passe",
-        widget=forms.PasswordInput(attrs={'placeholder': '••••••••'})
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)'''
-
 
 
 class CustomUserForm(forms.ModelForm):
@@ -197,14 +149,22 @@ class MessageForm(forms.ModelForm):
             'recipient': forms.Select(attrs={'class': 'form-control'}),
         }
 
-'''
-class MatchingForm(forms.ModelForm):
+from django import forms
+from .models import Trajet
+
+class TrajetForm(forms.ModelForm):
     class Meta:
-        model=Matching
-        fields= ['heure_de_depart','date_de_depart']
-        heure_de_depart = forms.TimeField(
+        model = Trajet
+        fields = ['start_lat', 'start_lng', 'heure_depart']
+        widgets = {
+            'start_lat': forms.HiddenInput(),
+            'start_lng': forms.HiddenInput(),
+            'heure_depart': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+        }
+
+        heure_depart = forms.TimeField(
             label="Heure de départ",
             widget=forms.TimeInput(attrs={'type': 'time'}),
             input_formats=['%H:%M']
         )
-       '''
+    

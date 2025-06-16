@@ -5,126 +5,68 @@
     <title>Matching</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="{% static 'css/stylematching.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h4>Choisissez uniquement le point de départ (vert). Le point d'arrivée est déjà défini.</h4>
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Page de Matching</h2>
-                <p>Cette page vous permet de sélectionner un point de départ sur la carte. Le point d’arrivée est fixe.</p>
-            </div>
+<div class="container mt-4">
+    <h2>Choisissez un point de départ</h2>
+    {% if message %}
+<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.start_lat }}
+        {{ form.start_lng }}
+
+        <div class="mb-3">
+            <label for="id_heure_depart" class="form-label">Heure de départ :</label>
+            {{ form.heure_depart }}
         </div>
 
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Instructions</h3>
-                    <p>1. Cliquez sur la carte pour choisir votre point de départ (marqué en vert).</p>
-                    <p>2. Le point d’arrivée fixe (marqué en rouge) sera relié au départ par une ligne bleue.</p>
-                    <p>3. Cliquez sur "Recommencer" pour effacer et recommencer.</p>
-                </div>
-            </div>
-        </div>
+        <div id="map" style="height: 500px;"></div>
+        <p class="text-danger mt-2" id="error-msg"></p>
 
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary" onclick="resetMap()">Recommencer</button>
-                    <div id="map" style="height: 500px;"></div>
-                    <p id="resultat" class="mt-3"></p>
-                </div>
-            </div>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-success mt-3">Valider le trajet</button>
+    </form>
+</div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([6.4970, 2.6030], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        const map = L.map('map').setView([6.4970, 2.6030], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+    const endCoords = [6.4178, 2.3408];
+    L.marker(endCoords, {
+        icon: L.icon({
+            iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            iconSize: [32, 32]
+        })
+    }).addTo(map).bindPopup("Arrivée fixe");
 
-        let startMarker = null;
-        let line = null;
-        let coords = {};
+    let startMarker = null;
 
-        // Coordonnées fixes pour le point d’arrivée
-        const endCoords = {
-            lat: 6.4178,
-            lng: 2.3408
-        };
-
-        // Affiche le marqueur d’arrivée une seule fois au chargement
-        const endMarker = L.marker([endCoords.lat, endCoords.lng], {
-            draggable: false,
+    map.on('click', function(e) {
+        if (startMarker) map.removeLayer(startMarker);
+        startMarker = L.marker(e.latlng, {
             icon: L.icon({
-                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
                 iconSize: [32, 32]
             })
-        }).addTo(map).bindPopup("UAC - Université d'Abomey-Calavi").openPopup();
+        }).addTo(map).bindPopup("Départ").openPopup();
 
-        function resetMap() {
-            if (startMarker) map.removeLayer(startMarker);
-            if (line) map.removeLayer(line);
-            startMarker = line = null;
-            coords = {};
-            document.getElementById("resultat").innerText = "";
-        }
+        document.getElementById("id_start_lat").value = e.latlng.lat;
+        document.getElementById("id_start_lng").value = e.latlng.lng;
+    });
 
-        map.on('click', function(e) {
-            const { lat, lng } = e.latlng;
+   
 
-            if (startMarker) {
-                alert("Le point de départ est déjà sélectionné. Cliquez sur 'Recommencer' pour modifier.");
-                return;
-            }
-
-            startMarker = L.marker([lat, lng], {
-                draggable: false,
-                icon: L.icon({
-                    iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
-                    iconSize: [32, 32]
-                })
-            }).addTo(map).bindPopup("Départ").openPopup();
-
-            coords.start_lat = lat;
-            coords.start_lng = lng;
-
-
-            // Tracer une ligne
-            line = L.polyline([
-                [lat, lng],
-                [endCoords.lat, endCoords.lng]
-            ], { color: 'blue' }).addTo(map);
-
-            envoyerCoordonnees();
-        });
-
-        function envoyerCoordonnees() {
-            fetch("{% url 'enregistrer' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                body: JSON.stringify(coords)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("resultat").innerText = data.message || "Erreur";
-            })
-            .catch(error => {
-                console.error("Erreur :", error);
-                document.getElementById("resultat").innerText = "Une erreur est survenue.";
-            });
-        }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</script>
 </body>
 </html>
+<!-- This code is for a matching page where users can select a starting point on a map and set a departure time. -->

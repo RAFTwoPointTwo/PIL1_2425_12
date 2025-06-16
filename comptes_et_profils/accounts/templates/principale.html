@@ -180,7 +180,7 @@
        <div class="row"><h1 class="attribut-5">Partager le trajet, Partager le prix</h1></div>
        <div class="row mt-3"><p>Trouvez des partenaires, réduisez vos dépenses et réduisez votre empreinte carbonne</p></div>
 
-       <form method="POST" action="{% url 'register' %}">
+       <form method="POST" action="{% url 'matching_page' %}">
            {% csrf_token %}
            <div class="row attribut-1">
                 <div class="col-md">
@@ -197,7 +197,7 @@
                 <div class="col-md">
                         <span>Heure de départ</span><br>
                         <input class="attribut-3" type="time" name="heure_de_depart">
-               <div class="row-cols-auto attribut-2"><button class="attribut-4 btn" type="submit">Valider</button></div>
+               <div class="row-cols-auto attribut-2"><a href="{% url 'matching_page' %}"><button class="attribut-4 btn">Valider</button></a></div>
            </div>
        </form>
 

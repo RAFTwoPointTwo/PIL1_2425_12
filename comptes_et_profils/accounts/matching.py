@@ -1,17 +1,37 @@
-'''from .models import CustomUser,Matching, Trajet
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-import datetime
-
+from geopy.distance import geodesic
+from datetime import datetime, date
+from .models import Trajet, CustomUser
 
 def matching(request):
-    utilisateur=request.user.customuser
-    utilisant=
-    groupe1=[]
-    for utilisant in CustomUser.objects.all():
-      if  utilisant.role == 'conducteur' and utilisant != utilisateur:
-        trajet = Matching.objects.filter(conducteur=utilisant)
-        if trajet.exists():
-            for t in trajet:
-                if t.start_point == utilisateur.start_point and t.start_date >= datetime.datetime.now().time():
-                    groupe1.append(t)'''
+    user = request.user
+
+    try:
+        mon_trajet = Trajet.objects.filter(user=user).latest('created_at')
+    except Trajet.DoesNotExist:
+        return []  # Aucun trajet disponible pour l'utilisateur
+
+    # Heure de départ convertie en datetime
+    heure_depart = datetime.combine(date.today(), mon_trajet.heure_depart)
+
+    # Tous les trajets sauf ceux du user actuel
+    trajets_autres = Trajet.objects.exclude(user=user)
+
+    matches = []
+    for trajet in trajets_autres:
+        if trajet.user.role == user.role:
+            continue  # On veut matcher avec l’autre rôle
+
+        heure_autre = datetime.combine(date.today(), trajet.heure_depart)
+        ecart_temps = abs((heure_depart - heure_autre).total_seconds())
+
+        if ecart_temps <= 1800:  # ±30 min
+            # Distance entre les points
+            coord1 = (mon_trajet.start_lat, mon_trajet.start_lng)
+            coord2 = (trajet.start_lat, trajet.start_lng)
+            distance = geodesic(coord1, coord2).km
+
+            if distance <= 3:  # Par exemple : rayon de 3km
+                matches.append(trajet)
+
+    return matches
+

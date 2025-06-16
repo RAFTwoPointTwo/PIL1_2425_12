@@ -60,18 +60,11 @@ class Trajet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
     start_lat = models.FloatField()
     start_lng = models.FloatField()
+    heure_depart = models.TimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Trajet du {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+        return f"Trajet de {self.user.username} à {self.heure_depart}"
 
 
-'''class Matching(models.Model):
-    
-    
-    trajet = models.ForeignKey(Trajet, on_delete=models.CASCADE)
-    heure_de_depart = models.TimeField()
-    
 
-    def __str__(self):
-        return f"Matching pour {self.user.username} le {self.matched_at.strftime('%Y-%m-%d %H:%M')}"'''

@@ -38,73 +38,7 @@ def profil(request):
     return render(request, 'profil.html', {'profile': profile})
 
 
-'''@login_required
-def profil_edit(request):
-    profile = request.user.profile
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profil')
-    else:
 
-        form = ProfileForm(instance=profile)
-        return render(request, 'profil_edit.html', {'form': form})'''
-
-
-
-
-'''class CustomLoginView(LoginView):
-    template_name = 'login.html'
-    authentification_form = CustomLoginForm'''
-
-'''def CustomLoginView(request):
-    form = CustomLoginForm(request.POST or None)
-    if form.is_valid():
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('principale')
-        else:
-            form.add_error(None, "Email ou mot de passe incorrect.")
-    return render(request, 'login.html', {'form': form})'''
-
-'''class CustomLoginView(LoginView):
-    template_name = 'login.html'
-    form_class = CustomLoginForm
-    redirect_authenticated_user = True'''
-
-
-'''class CustomLoginView(LoginView):
-    template_name = 'login.html'
-    form_class = CustomLoginForm
-    redirect_authenticated_user = True
-    def form_valid(self, form):
-        email = form.cleaned_data['username']
-        password = form.cleaned_data['password']
-        user = authenticate(self.request, email=email, password=password)
-
-        if user is not None:
-            login(self.request, user)
-            return super().form_valid(form)
-        else:
-            form.add_error(None, "Email ou mot de passe incorrect.")
-            return self.form_invalid(form)'''
-
-
-'''def login_view(request):
-    if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        user = authenticate(request , email=email , password = password)
-        if user is not None:
-            login(request, user)
-            return redirect('principale')
-        else:
-            messages.error(request , "Email ou mot de passe Not valid")
-            return redirect('login')'''
 
 User = get_user_model()
 
@@ -142,8 +76,7 @@ def enregistrer_trajet(request):
         trajet = Trajet.objects.create(
             start_lat=data.get('start_lat'),
             start_lng=data.get('start_lng'),
-            #end_lat=data.get('end_lat'),
-            #end_lng=data.get('end_lng')
+            
         )
         trajet.save()
         return JsonResponse({'message': "Trajet enregistré avec succès !"})
@@ -167,3 +100,29 @@ def send_message(request):
     else:
         form = MessageForm()
     return render(request, 'send_message.html', {'form': form})
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import TrajetForm
+
+@login_required
+def choisir_trajet(request):
+    message = None
+    if request.method == 'POST':
+        form = TrajetForm(request.POST)
+        if form.is_valid():
+            trajet = form.save(commit=False)
+            trajet.user = request.user
+            trajet.save()
+            message = "Trajet enregistré avec succès !"
+            form = TrajetForm()  # Réinitialise le formulaire après soumission
+    else:
+        form = TrajetForm()
+    
+    return render(request, 'matching_page', {
+        'form': form,
+        'message': message
+    })
+
+
