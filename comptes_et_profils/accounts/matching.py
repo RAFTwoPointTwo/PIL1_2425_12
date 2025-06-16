@@ -1,7 +1,10 @@
-<<<<<<< HEAD
 from geopy.distance import geodesic
 from datetime import datetime, date
 from .models import Trajet, CustomUser
+from .models import Trajet, CustomUser #, Matching
+import datetime
+import geopy
+import time
 
 def matching(request):
     user = request.user
@@ -36,12 +39,6 @@ def matching(request):
 
     return matches
 
-=======
-from .models import Trajet, CustomUser, Matching
-import datetime
-import geopy
-import time
-
 passagers_compatibles = []
 conducteurs_compatibles = []
 
@@ -62,4 +59,3 @@ def matching(request):
                 conducteurs_compatibles.append(conducteur.id)
 
     return {"passagers_compatibles": passagers_compatibles, "conducteurs_compatibles": conducteurs_compatibles}
->>>>>>> cbaaf95 (Mot de passe oublié)
