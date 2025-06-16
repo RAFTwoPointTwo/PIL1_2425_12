@@ -16,16 +16,24 @@
                 Email ou mot de passe invalide.
             </div>
         {% endif %}
-
-        <form method="POST" action="{% url 'principale' %}" novalidate>
+<!--        action="{% url 'login' %}" novalidate-->
+        <form method="POST" >
             {% csrf_token %}
             <div class="mb-3">
-                {{ form.email.label_tag }}
-                {{ form.email}}
+                <label for="email" class="form-label">Email</label>
+                <span></span>
+                <input id="email" type="email" name="email" class="form-control" required>
+
             </div>
             <div class="mb-3">
-                {{ form.password.label_tag }}
-                {{ form.password}}
+<!--                {{ form.password.label_tag }}-->
+<!--                {{ form.password}}-->
+                <label for="password" class="form-label">Mot de passe</label>
+                <span></span>
+                <input id="password" type="password" name="password" class="form-control" required>
+
+
+
             </div>
             <button type="submit" class="btn btn-primary w-100">Connexion</button>
 <!--            <div><a href="{% url 'principale' %}" class="btn btn-primary w-100"> Connexion</a></div>-->

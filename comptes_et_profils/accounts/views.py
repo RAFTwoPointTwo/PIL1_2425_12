@@ -1,59 +1,23 @@
-from django.contrib.auth import login , authenticate
-from .forms import CustomLoginForm , CustomUserForm
+from django.contrib.auth import login , get_user_model , authenticate
+from .forms import CustomUserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect , get_object_or_404
-'''from .models import Message'''
 from django.db import models
 from django.http import JsonResponse
+<<<<<<< HEAD
 from .models import Trajet,CustomUser
 
+=======
+from .models import Trajet
+from django.contrib import messages
+>>>>>>> 6b197e8642647d1b309759de1ce05eb2664d825e
 import json
 
 
-
+@login_required
 def principale(request):
     return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()})
-
-
-'''def register(request):
-    if request.method == 'POST':
-        user_form = CustomUserCreationForm(request.POST)
-        profile_form = ProfileForm(request.POST, request.FILES)
-        if user_form.is_valid() and profile_form.is_valid():
-            # Récupération manuelle des données
-            username = user_form.cleaned_data['username']
-            email = user_form.cleaned_data['email']
-            password = user_form.cleaned_data['password1']
-            first_name = user_form.cleaned_data['first_name']
-            last_name = user_form.cleaned_data['last_name']
-            phone = user_form.cleaned_data['phone']
-            role = user_form.cleaned_data['role']
-
-            # Création manuelle de l'utilisateur
-            user = User.objects.create_user(
-                username=username,
-                email=email,
-                password=password,
-                first_name=first_name,
-                last_name=last_name,
-                phone=phone,
-                role=role
-            )
-            # Création du profil
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-
-            return redirect('principale')
-    else:
-        user_form = CustomUserCreationForm()
-        profile_form = ProfileForm()
-    return render(request, 'register.html', {
-        'user_form': user_form,
-        'profile_form': profile_form
-    })'''
-
 
 def register(request):
     if request.method == 'POST':
@@ -92,68 +56,76 @@ def profil_edit(request):
 
 
 
-'''@login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')'''
-
-
 '''class CustomLoginView(LoginView):
     template_name = 'login.html'
     authentification_form = CustomLoginForm'''
 
-def CustomLoginView(request):
+'''def CustomLoginView(request):
     form = CustomLoginForm(request.POST or None)
     if form.is_valid():
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
             return redirect('principale')
         else:
             form.add_error(None, "Email ou mot de passe incorrect.")
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})'''
+
+'''class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    form_class = CustomLoginForm
+    redirect_authenticated_user = True'''
+
+
+'''class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    form_class = CustomLoginForm
+    redirect_authenticated_user = True
+    def form_valid(self, form):
+        email = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(self.request, email=email, password=password)
+
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Email ou mot de passe incorrect.")
+            return self.form_invalid(form)'''
+
+
+'''def login_view(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        user = authenticate(request , email=email , password = password)
+        if user is not None:
+            login(request, user)
+            return redirect('principale')
+        else:
+            messages.error(request , "Email ou mot de passe Not valid")
+            return redirect('login')'''
+
+User = get_user_model()
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('principale')
+        else:
+            messages.error(request, "Email ou mot de passe incorrect.")
+
+    return render(request, 'login.html')
+
 
 class CustomLogoutView(LogoutView):
     next_page = '/login/'
-
-
-# Vue messagerie
-#vues
-
-
-'''@login_required'''
-'''def chat(request, recipient_email=None):
-    recipient = None
-    if recipient_email:
-        try:
-            recipient = User.objects.get(email=recipient_email)
-        except User.DoesNotExist:
-            pass
-
-    if request.method == 'POST':
-        form = MessageForm(request.POST, user=request.user)
-        if form.is_valid():
-            message = form.save(commit=False)
-            message.sender = request.user
-            message.save()
-            return redirect('chat', recipient_email=recipient.email)
-    else:
-        form = MessageForm(user=request.user)
-        if recipient:
-            form.fields['receiver'].initial = recipient
-
-    # Récupération des conversations
-
-    conversations = Message.objects.filter(
-        models.Q(sender=request.user) | models.Q(receiver=request.user)
-    ).order_by('timestamp')
-
-    return render(request, 'chat/chat.html', {
-        'form': form,
-        'conversations': conversations,
-        'active_recipient': recipient,
-    })'''
 
 
 '''@login_required'''
@@ -164,7 +136,6 @@ def matching_page(request):
     return render(request, 'matching_page.html')
 
 from django.shortcuts import render
-
 
 
 def enregistrer_trajet(request):

@@ -1,7 +1,11 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+<<<<<<< HEAD
 from .views import CustomLoginView,inbox, CustomLogoutView, send_message, chat_room, matching_page, enregistrer_trajet
+=======
+from .views import login_view
+>>>>>>> 6b197e8642647d1b309759de1ce05eb2664d825e
 
 urlpatterns = [
     path('' , views.register , name = 'register'),
@@ -13,9 +17,9 @@ urlpatterns = [
     path('reset/done/' , auth_views.PasswordResetCompleteView.as_view(template_name = 'password_reset_complete.html') , name = 'password_reset_complete'),
    # path('profil/' , views.profil , name = 'profil'),
     path('principale/' , views.principale , name = 'principale'),
-    path('login/',CustomLoginView, name='login'),
-    #path('logout/',CustomLogoutView.as_view(), name='logout')
-    path('compte_cree/' , views.created_account , name = 'compte_cree'),
+    #path('login/',CustomLoginView, name='login'),
+    path('login/', login_view, name='login'),
+    path('/compte_cree' , views.created_account , name = 'compte_cree'),
     path('chat/<str:room_name>/', views.chat_room, name='chat_room'),
     path('matching_page/', views.matching_page, name='matching_page'),
     path('enregistrer/', views.enregistrer_trajet, name='enregistrer'),

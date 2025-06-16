@@ -87,11 +87,15 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'une_data',
+        'NAME': 'test9',
         'USER': 'root',
-        'PASSWORD':'onlyjesus',
+        'PASSWORD':'rafcode7',
         'HOST':'localhost',
         'PORT':'3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         
     }
 }
@@ -140,8 +144,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR , 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#LOGIN_URL = 'login'
+LOGIN_URL = '/login/'
 #LOGIN_REDIRECT_URL = 'profil'
 #LOGOUT_REDIRECT_URL = 'login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+#LOGIN_REDIRECT_URL = '/principale/'
+#LOGOUT_REDIRECT_URL = '/principale/'
