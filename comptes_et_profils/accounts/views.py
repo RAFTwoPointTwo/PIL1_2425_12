@@ -6,9 +6,11 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Trajet,CustomUser
 from django.contrib import messages
-from .models import Message
+from .models import Message , Profile
 from .forms import MessageForm , TrajetForm
 import json
+import folium
+from geopy.geocoders import Nominatim
 
 
 @login_required
@@ -71,8 +73,58 @@ class CustomLogoutView(LogoutView):
     next_page = '/login/'
 
 
-def matching_page(request):
-    return render(request, 'matching_page.html')
+def map_page(request):
+    user = request.user
+    try:
+        profil = user.profile
+        print(f"profil {profil}")
+        lieu_depart = user.start_point
+        print(f"lieu de depart : {lieu_depart}")
+    except:
+        lieu_depart = None
+        print(f"lieu de depart {lieu_depart}")
+
+    if not lieu_depart:
+        return render(request, 'map_page.html', {'message': "Aucun lieu de départ défini."})
+
+    geolocator = Nominatim(user_agent="Map_profile")
+    start_location = geolocator.geocode(lieu_depart)
+    uac_location = geolocator.geocode("Université d'Abomey-Calavi, Bénin")
+
+    if not start_location or not uac_location:
+        return render(request, 'map_page.html', {'message': "Impossible de localiser les lieux."})
+
+    m = folium.Map(
+        location=[(start_location.latitude + uac_location.latitude) / 2,
+                  (start_location.longitude + uac_location.longitude) / 2],
+        zoom_start=11
+    )
+
+    folium.Marker(
+        [start_location.latitude, start_location.longitude],
+        popup="Départ : " + lieu_depart,
+        tooltip=f"{lieu_depart}",
+        icon=folium.Icon(color='blue')
+    ).add_to(m)
+
+    folium.Marker(
+        [uac_location.latitude, uac_location.longitude],
+        popup="Université d'Abomey-Calavi (UAC)",
+        tooltip="UAC",
+        icon=folium.Icon(color='red')
+    ).add_to(m)
+
+    folium.PolyLine(
+        [(start_location.latitude, start_location.longitude),
+         (uac_location.latitude, uac_location.longitude)],
+        color='green',
+        weight=5,
+        opacity=0.8
+    ).add_to(m)
+
+    map_html = m._repr_html_()
+    return render(request, 'map_page.html', {'map': map_html})
+
 
 
 def enregistrer_trajet(request):

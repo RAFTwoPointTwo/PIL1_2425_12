@@ -102,6 +102,11 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .marge-right{
+            margin-right:150%;
+           margin-top:15%;
+        }
     </style>
 
     
@@ -123,35 +128,40 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#how">
-              <span class="mx-5 text-primary"><i class="bi bi-question-circle-fill mx-2"></i> Comment ça marche ?</span>
+              <span class="mx-3 text-primary"><i class="bi bi-question-circle-fill mx-2"></i> Comment ça marche ?</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'matching_page' %}">
-               <span class="mx-5 text-primary"><i class="bi bi-share-fill mx-2"></i>Partager un trajet</span>
+            <a class="nav-link" href="{% url 'map_page' %}">
+               <span class="mx-3 text-primary"><i class="bi bi-map mx-2"></i>Map</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'send_message' %}">
-               <span class="mx-5 text-primary"><i class="bi bi-chat-dots-fill mx-2"></i>Messagerie</span>
+               <span class="mx-3 text-primary"><i class="bi bi-chat-dots-fill mx-2"></i>Messagerie</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}">
-               <span class="mx-5 text-primary"><i class="bi bi-person-circle mx-2"></i>Mon compte</span>
+               <span class="mx-3 text-primary"><i class="bi bi-person-circle mx-2"></i>Mon compte</span>
             </a>
           </li>
+
+            <li class="nav-item ms-5">
+            <a class="nav-link" href="{% url 'login' %}">
+               <span class="ms-5"><a href="{% url 'login' %}" class="btn btn-danger">Déconnexion</a></span>
+            </a>
+          </li>
+
         </ul>
       </div>
     </div>
   </nav>
 </header>
 
-    <div class="container-lg text-center attribut-9">
+    <div class="container-lg text-center flux-clair rounded-2 mt-5">
         <div class="row">
             <h1 class="attribut-8 fs-1">Bienvenue sur Logisticar</h1>
-        </div>
-        <div class="row">
             <p class="text-secondary">Partagez vos trajets, réduisez vos coûts et faites de nouvelles rencontres</p>
         </div>
     </div>
@@ -161,7 +171,7 @@
        <div class="row mw-25"><h3 class="flux-clair rounded-pill">Partager le trajet, Partager le prix</h3></div>
        <div class="row mt-3"><p class="fw-bold">Trouvez des partenaires, réduisez vos dépenses et réduisez votre empreinte carbonne</p></div>
 
-       <form method="POST" action="{% url 'matching_page' %}">
+       <form method="POST">
            {% csrf_token %}
            <div class="row attribut-1">
                 <div class="col-md">
@@ -175,13 +185,13 @@
                 <div class="col-md">
                         <span>Heure de départ</span><br>
                         <input class="attribut-3" type="time" name="heure_de_depart">
-               <div class="row-cols-auto attribut-2"><a href="{% url 'matching_page' %}"><button class="attribut-4 btn">Valider</button></a></div>
+               <div class="row marge-right"><a href=""><button class="attribut-4 btn">Valider</button></a></div>
            </div>
 
        </form>
 
     </div>
-        </div>
+   </div>
     </div>
 
     <div class="container fw-bold  rounded-5" id="how">
@@ -223,7 +233,7 @@
         </div>
     </div>
 
-     <footer class="container-fluid text-center attribut-9">
+     <footer class="container-fluid text-center attribut-9 mb-5">
             
                 <div class="row">
                    <p>All right reserved</p>

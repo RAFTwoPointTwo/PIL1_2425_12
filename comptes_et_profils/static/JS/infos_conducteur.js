@@ -11,10 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Initialisation au chargement
     toggleVehiculeSection();
 
-    // Réagir aux changements
     roleField.addEventListener("change", toggleVehiculeSection);
 });
 </script>
