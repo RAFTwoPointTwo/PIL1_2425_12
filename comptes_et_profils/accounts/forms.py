@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Message,CustomUser
+from .models import Trajet
 
 class CustomUserForm(forms.ModelForm):
     start_date = forms.TimeField(
@@ -105,7 +106,7 @@ class CustomUserForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             existing_classes = field.widget.attrs.get('class', '')
             if 'form-control' not in existing_classes:
-                field.widget.attrs['class'] = (existing_classes + ' form-control w-50').strip()
+                field.widget.attrs['class'] = (existing_classes + ' form-control w-100').strip()
             if field_name == 'vehicule_marque':
                 field.widget.attrs['placeholder'] = "Reseignez ce champ uniquement si vous êtes un conducteur"
             elif field_name == 'vehicule_model':
@@ -122,6 +123,25 @@ class CustomUserForm(forms.ModelForm):
             user.save()
         return user
 
+class CustomUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['nom', 'prenom', 'email', 'numero_de_telephone', 'role' , 'start_point' , 'start_date' , 'arrival_date' , 'vehicule_marque' , 'vehicule_model' , 'vehicule_place']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            existing_classes = field.widget.attrs.get('class', '')
+            if 'form-control' not in existing_classes:
+                field.widget.attrs['class'] = (existing_classes + ' form-control w-100').strip()
+            if field_name == 'vehicule_marque':
+                field.widget.attrs['placeholder'] = "Reseignez ce champ uniquement si vous êtes un conducteur"
+            elif field_name == 'vehicule_model':
+                field.widget.attrs['placeholder'] = "Renseignez ce champ uniquement si vous êtes un conducteur"
+            elif field_name == 'vehicule_place':
+                field.widget.attrs['placeholder'] = "Renseignez ce champ uniquement si vous êtes un conducteur"
+
+
 
 class MessageForm(forms.ModelForm):
     class Meta:
@@ -131,9 +151,6 @@ class MessageForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'recipient': forms.Select(attrs={'class': 'form-control'}),
         }
-
-from django import forms
-from .models import Trajet
 
 class TrajetForm(forms.ModelForm):
     class Meta:

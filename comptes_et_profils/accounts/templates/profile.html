@@ -3,15 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .flux-clair{
+            border-radius: 4px;
+            background-image: -webkit-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: -moz-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image:-o-linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flux{
+            background: linear-gradient(90deg,rgb(1, 56, 255),rgb(27, 248, 3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sizer{
+            font-size:500%;
+        }
+
+        .ms-7{
+            margin-left: 5rem;
+        }
+    </style>
 </head>
 <body>
-    <h2>Profil utilisateur</h2>
-    <p>Nom : {{ request.user.nom }}</p>
-    <p>Prénom : {{ request.user.prenom }}</p>
-    <p>Rôle : {{ request.user.role }}</p>
+<h2 class="container fw-bolder flux-clair rounded-pill my-5">Profil utilisateur</h2>
+<i class="bi bi-person-circle sizer text-primary d-flex justify-content-center align-items-center"></i>
+<div class="d-flex justify-content-center align-items-center fs-5" style="height: 70vh;">
+    <div class="p-4 border rounded shadow">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5">Nom:</span></div>
+                <div class="col-8 text-start"><span class="text-secondary ms-5 ms-7">{{ request.user.nom }}</span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5">Prénoms:</span></div>
+                <div class="col-8 text-start"><span class="text-secondary ms-5 ms-7">{{ request.user.prenom }}</span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5">Rôle:</span></div>
+                <div class="col-8 text-start"><span class="text-secondary ms-5 ms-7 text-uppercase">{{ request.user.role }}</span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5">Email</span></div>
+                <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.email }}</span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5 text-nowrap">Départ habituel de:</span></div>
+                <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.start_point }} <span class="mx-2">à</span> {{ request.user.start_date }}</span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5 text-nowrap">Arrivée habituelle à:</span></div>
+                <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.arrival_date }}</span></div>
+            </div>
 
-    <h3>Informations supplémentaires</h3>
-    <p>Heure de départ habituel : {{ profile.heure_depart_habituel }}</p>
+            {% if request.user.role == "conducteur" and request.user.vehicule_marque != "" %}
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5 text-nowrap">Marque du véhicule:</span></div>
+                    <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.vehicule_marque }}</span></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5 text-nowrap">Modèle du véhicule:</span></div>
+                    <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.vehicule_model }}</span></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold text-start"><span class="text-primary fw-bold me-5 text-nowrap">Places disponibles:</span></div>
+                    <div class="col-8 text-start "><span class="text-secondary ms-5 ms-7">{{ request.user.vehicule_place }}</span></div>
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container d-flex justify-content-center align-items-center mb-2"><a href="{% url 'profile_update' %}" class="btn btn-primary">Modifier son profil</a></div>
 
 </body>
 </html>

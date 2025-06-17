@@ -9,8 +9,6 @@
     <style>
         body{
             background: linear-gradient(135deg,#e0f7fa,#e0ffe9);
-            padding-top: 8%;
-            padding-bottom: 20%;
         }
 
         .flux-clair{
@@ -32,9 +30,16 @@
             margin-top: 40%;
         }
 
-        .super-marge-top{
-            margin-top: 45%;
+        .super-marge-left{
             margin-left: 30%;
+        }
+
+        .width{
+            max-width: 70%;
+        }
+
+        .marge-left{
+            margin-left: 40%;
         }
 
     </style>
@@ -43,87 +48,89 @@
 <body class="bg-light">
     <div class="container flux text-center fs-1 mb-5"><h1>Créez un compte</h1></div>
     <br>
-    <div class="d-flex justify-content-center align-items-center vh-100 my-5 ">
+    <div class="d-flex justify-content-center align-items-center">
         <form method="POST" enctype="multipart/form-data" class="container p-4 rounded shadow">
+            <h2 class="container fw-bolder flux-clair rounded-pill mb-5">Informations utilisateur</h2>
         {% csrf_token %}
-        <div class="container justify-content-center align-items-center marge-top">
-
-                <h2 class="container fw-bolder flux-clair rounded-pill mb-5">Informations utilisateur</h2>
+        <div class="container d-flex justify-content-center align-items-center">
                 {{ form.non_field_errors }}
 
-                <!--{{ form.as_p }}-->
-            <div>
-        {{ form.nom.label_tag }}
-        {{ form.nom }}
-    </div>
+   <div class="container">
+       <div class="my-2">
+           {{ form.nom.label_tag }}
+           {{ form.nom }}
+       </div>
 
-    <div>
-        {{ form.prenom.label_tag }}
-        {{ form.prenom }}
-    </div>
+       <div class="my-2">
+           {{ form.prenom.label_tag }}
+           {{ form.prenom }}
+       </div>
 
-    <div>
-        {{ form.username.label_tag }}
-        {{ form.username }}
-    </div>
+       <div class="my-2">
+           {{ form.username.label_tag }}
+           {{ form.username }}
+       </div>
 
-    <div>
-        {{ form.password.label_tag }}
-        {{ form.password }}
-    </div>
+       <div class="my-2">
+           {{ form.password.label_tag }}
+           {{ form.password }}
+       </div>
 
-    <div>
-        {{ form.email.label_tag }}
-        {{ form.email }}
-    </div>
+       <div class="my-2">
+           {{ form.email.label_tag }}
+           {{ form.email }}
+       </div>
+   </div>
 
-    <div>
+<div class="container">
+    <div class="my-2">
         {{ form.numero_de_telephone.label_tag }}
         {{ form.numero_de_telephone }}
     </div>
 
-    <div>
+    <div class="my-2">
         {{ form.role.label_tag }}
         {{ form.role }}
     </div>
 
-    <div>
+    <div class="my-2">
         {{ form.start_point.label_tag }}
         {{ form.start_point }}
     </div>
 
-    <div>
+    <div class="my-2">
         {{ form.start_date.label_tag }}
         {{ form.start_date }}
     </div>
 
-    <div>
+    <div class="my-2">
         {{ form.arrival_date.label_tag }}
         {{ form.arrival_date }}
     </div>
-<div id="vehicule-fields" style="display: none;">
-        <div>
-            <h2 class="container fw-light flux-clair rounded-3 my-5">► Êtes vous conducteur ? </h2>
+</div>
+        </div>
+            <div id="vehicule-fields" class="container justify-content-center align-items-center" style="display: none;">
+                <div>
+                    <h2 class="container fw-light flux-clair rounded-3 my-5">► Êtes vous conducteur ? </h2>
 
-            {{ form.vehicule_marque.label_tag }}
-            {{ form.vehicule_marque }}
-        </div>
-        <div>
-            {{ form.vehicule_model.label_tag }}
-            {{ form.vehicule_model }}
-        </div>
-        <div>
-            {{ form.vehicule_place.label_tag }}
-            {{ form.vehicule_place }}
-        </div>
-    </div>
-        </div>
+                    {{ form.vehicule_marque.label_tag }}
+                    {{ form.vehicule_marque }}
+                </div>
+                <div>
+                    {{ form.vehicule_model.label_tag }}
+                    {{ form.vehicule_model }}
+                </div>
+                <div>
+                    {{ form.vehicule_place.label_tag }}
+                    {{ form.vehicule_place }}
+                </div>
+            </div>
             <br>
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+            <div class="d-flex justify-content-center align-items-center"><button type="submit" class="btn btn-primary">S'inscrire</button></div>
     </form>
     </div>
 
-    <div class ="container d-flex super-marge-top"><span class="fw-bolder flux-clair d-flex justify-content-center align-items-center w-25 me-5">Déjà un compte ?</span> <a href="{% url 'login' %}" class="btn btn-primary text-decoration-none text-light">Connexion</a></div>
+    <div class ="container d-flex super-marge-left my-5"><span class="fw-bolder flux-clair d-flex justify-content-center align-items-center w-25 me-5">Déjà un compte ?</span> <a href="{% url 'login' %}" class="btn btn-primary text-decoration-none text-light">Connexion</a></div>
 
 
 

@@ -1,5 +1,5 @@
 from django.contrib.auth import login , get_user_model , authenticate
-from .forms import CustomUserForm
+from .forms import CustomUserForm , CustomUserUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
@@ -13,7 +13,7 @@ import json
 
 @login_required
 def principale(request):
-    return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()[:3]})
+    return render(request, 'principale.html')
 
 def register(request):
     if request.method == 'POST':
@@ -33,7 +33,23 @@ def created_account(request):
 @login_required
 def profil(request):
     profile = request.user.profile
-    return render(request, 'profil.html', {'profile': profile})
+    return render(request, 'profile.html', {'profile': profile})
+
+@login_required
+def profile_update(request):
+    user = request.user
+    if request.method == 'POST':
+        form = CustomUserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            print("Données validées :", form.cleaned_data)
+            form.save()
+            messages.success(request, "Vos informations ont été mises à jour.")
+            return redirect('profile')
+    else:
+        form = CustomUserUpdateForm(instance=user)
+    return render(request, 'profile_update.html', {'form': form})
+
+
 
 User = get_user_model()
 

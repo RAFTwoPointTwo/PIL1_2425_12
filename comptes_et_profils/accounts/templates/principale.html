@@ -62,15 +62,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .attribut-6{
-             background-image: -webkit-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
-            background-image: -moz-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
-            background-image:-o-linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
-            background-image: linear-gradient(100deg,#cde4f9,rgb(213, 241, 247),rgb(166, 246, 223));
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 2rem;
-        }
-
         .attribut-7{
             background-color: white;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -111,13 +102,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .green-set{
-            color: #22b452;
-        }
-            
-
-        
     </style>
 
     
@@ -127,37 +111,34 @@
     
    <header>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e0f8ea;" data-bs-theme="light">
-    <div class="container-fluid">
+    <div class="container-fluid justify-content-around">
       <a class="navbar-brand flux fw-bolder fs-1" href="#"><i class="bi bi-car-front px-3"></i>Logisticar</a>
 
-      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
               aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Menu -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
-              <i class="bi bi-question-circle-fill"></i> Comment ça marche
+            <a class="nav-link active" aria-current="page" href="#how">
+              <span class="mx-5 text-primary"><i class="bi bi-question-circle-fill mx-2"></i> Comment ça marche ?</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'matching_page' %}">
-              <i class="bi bi-share-fill"></i> Partager un trajet
+               <span class="mx-5 text-primary"><i class="bi bi-share-fill mx-2"></i>Partager un trajet</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'send_message' %}">
-              <i class="bi bi-chat-dots-fill"></i> Messagerie
+               <span class="mx-5 text-primary"><i class="bi bi-chat-dots-fill mx-2"></i>Messagerie</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">
-              <i class="bi bi-person-circle"></i> Mon compte
+            <a class="nav-link" href="{% url 'profile' %}">
+               <span class="mx-5 text-primary"><i class="bi bi-person-circle mx-2"></i>Mon compte</span>
             </a>
           </li>
         </ul>
@@ -168,17 +149,17 @@
 
     <div class="container-lg text-center attribut-9">
         <div class="row">
-            <h1 class="attribut-8">Bienvenue sur Logisticar</h1>
+            <h1 class="attribut-8 fs-1">Bienvenue sur Logisticar</h1>
         </div>
         <div class="row">
-            <p>Partagez vos trajets, réduisez vos coûts et faites de nouvelles rencontres</p>
+            <p class="text-secondary">Partagez vos trajets, réduisez vos coûts et faites de nouvelles rencontres</p>
         </div>
     </div>
 
    <div class="container-lg text-center attribut" >
 
-       <div class="row"><h1 class="attribut-5">Partager le trajet, Partager le prix</h1></div>
-       <div class="row mt-3"><p>Trouvez des partenaires, réduisez vos dépenses et réduisez votre empreinte carbonne</p></div>
+       <div class="row mw-25"><h3 class="flux-clair rounded-pill">Partager le trajet, Partager le prix</h3></div>
+       <div class="row mt-3"><p class="fw-bold">Trouvez des partenaires, réduisez vos dépenses et réduisez votre empreinte carbonne</p></div>
 
        <form method="POST" action="{% url 'matching_page' %}">
            {% csrf_token %}
@@ -187,9 +168,6 @@
                      <span>Point de départ</span><br>
                      <input class="attribut-3" type="text" name="point_de_depart" placeholder="Ex: Abomey-Calavi">
                 </div>
-
-           
-
                <div class="col-md">
                      <span>Point d'arrivée</span><br>
                      <input class="attribut-3" type="text" name="point_d_arrivee" placeholder="Ex: Cotonou">
@@ -199,42 +177,19 @@
                         <input class="attribut-3" type="time" name="heure_de_depart">
                <div class="row-cols-auto attribut-2"><a href="{% url 'matching_page' %}"><button class="attribut-4 btn">Valider</button></a></div>
            </div>
+
        </form>
 
     </div>
+        </div>
+    </div>
 
-    <div class="container text-center">
-        <div class="row"><p>Rejoignez une aventure incroyable et faites vous de nouvelles experiences</p></div>
-        <div class="row">
-            <div class="container-lg ">
-                             <div class="row">
-                             {% for utilisant in utilisateurs %}
-                          
-                              <div class="col attribut-6">
-                                   <div class="row row-cols-2" >
-                                       <h5 class="flux p-3">{{ utilisant.username }}</h5>
-                                       <h5 class="flux p-3">{{ utilisant.role }}</h5>
+    <div class="container fw-bold  rounded-5" id="how">
+        <span class="container fw-bold fs-3 flux-clair rounded-pill my-5">► Comment ça marche ?</span>
 
-                                   </div>       
-                
-                                   <p>
-                                      <div class="p-3"><span class="fw-bolder green-set">Nom</span> : <span class="text-success">{{ utilisant.nom }} {{ utilisant.prenom }}</span></div>
-                                     <div class="p-3"> <span class="fw-bolder green-set">Départ de</span> <span class="text-success">{{ utilisant.start_point }}</span> <span class="fw-bolder">à</span> UAC</div>
-                                      <div class="p-3"><span class="fw-bolder green-set">Heure de départ</span> : <span class="text-success">{{ utilisant.start_date }}</span></div>
-                                      <div class="p-3"><span class="fw-bolder green-set">Heure d'arrivée</span> : <span class="text-success">{{ utilisant.arrival_date }}</span></div>
-                                    <div class="p-3"><span class="fw-bolder green-set">Email</span> : <span class="text-success">{{ utilisant.email }}</span></div>
+        <h5 class="text-secondary fw-light my-5">Une fois connecté, indiquez votre point de départ habituel et votre horaire de déplacement . Si vous êtes passager , l’application vous propose automatiquement les conducteurs dont le trajet et les horaires correspondent aux votres . Si vous êtes conducteur, vous recevez en temps réel des demandes de passagers cherchant à partager un trajet proche du votre. Grâce à ce système de matching basé sur la proximité des lieux et la concordance des horaires, vous pouvez facilement trouver un trajet adapté à vos besoins ou remplir votre voiture sans perdre de temps. Tout est pensé pour que les trajets soient optimisés, sécurisés et partagés entre utilisateurs qui se déplacent dans les mêmes zones, aux mêmes moments.</h5>
 
-                                  </p>
-                              </div>
-                          
-                            {% empty %}
-                         <p>Aucun utilisateur trouvé.</p>
-                            {% endfor %}
-
-                        </div>    
-            </div>      
-        </div>   
-    </div>     
+    </div>
 
     <div class="container-xl text-center">
 
