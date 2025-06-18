@@ -6,16 +6,34 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Trajet,CustomUser
 from django.contrib import messages
-from .models import Message , Profile
+from .models import Message , Profile, Match
 from .forms import MessageForm , TrajetForm
 import json
 import folium
 from geopy.geocoders import Nominatim
+from .matching import matching
+
 
 
 @login_required
 def principale(request):
-    return render(request, 'principale.html')
+    
+    if request.method == 'POST':
+        form= TrajetForm(request.POST)
+        if form.is_valid():
+           trajet = form.save(commit=False)
+           trajet.user = request.user
+           trajet.save()
+           matching(request)
+           return redirect('matching_page')     
+           
+           
+              
+    else:
+         form = TrajetForm()
+        
+        
+    return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()[:3],'form':form })
 
 def register(request):
     if request.method == 'POST':
@@ -127,17 +145,6 @@ def map_page(request):
 
 
 
-def enregistrer_trajet(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        trajet = Trajet.objects.create(
-            start_lat=data.get('start_lat'),
-            start_lng=data.get('start_lng'),
-            
-        )
-        trajet.save()
-        return JsonResponse({'message': "Trajet enregistré avec succès !"})
-    return JsonResponse({'error': "Méthode non autorisée"}, status=405)
 
 
 @login_required
@@ -159,21 +166,10 @@ def send_message(request):
     return render(request, 'send_message.html', {'form': form})
 
 
+
 @login_required
-def choisir_trajet(request):
-    message = None
-    if request.method == 'POST':
-        form = TrajetForm(request.POST)
-        if form.is_valid():
-            trajet = form.save(commit=False)
-            trajet.user = request.user
-            trajet.save()
-            message = "Trajet enregistré avec succès !"
-            form = TrajetForm()  # Réinitialise le formulaire après soumission
-    else:
-        form = TrajetForm()
+def matching_page(request):
+    user = request.user
+    matches = matching(request)   
     
-    return render(request, 'matching_page', {
-        'form': form,
-        'message': message
-    })
+    return render(request, 'matching_page.html', {'matches': matches,  'trajets': Trajet.objects.filter(user=user).order_by('-created_at')[:1],'matchs': Match.objects.filter(user=user).order_by('-date_depart')[:3]})

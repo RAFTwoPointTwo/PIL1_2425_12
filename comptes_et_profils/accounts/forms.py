@@ -153,18 +153,30 @@ class MessageForm(forms.ModelForm):
         }
 
 class TrajetForm(forms.ModelForm):
-    class Meta:
-        model = Trajet
-        fields = ['start_lat', 'start_lng', 'heure_depart']
-        widgets = {
-            'start_lat': forms.HiddenInput(),
-            'start_lng': forms.HiddenInput(),
-            'heure_depart': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-        }
-
+        date_depart = forms.DateField(
+            label="Date de départ",
+            widget=forms.DateInput(attrs={'type': 'date'}),
+            input_formats=['%Y-%m-%d'],
+            error_messages={
+                'invalid': 'Veuillez entrer une date valide au format AAAA-MM-JJ.'
+            }
+        )
+  
+        point_depart = forms.CharField(
+            label="Point de départ",
+            max_length=100,
+            error_messages={
+                'invalid': 'Le point de départ ne peut pas dépasser 100 caractères.'
+            }
+        )
         heure_depart = forms.TimeField(
             label="Heure de départ",
             widget=forms.TimeInput(attrs={'type': 'time'}),
-            input_formats=['%H:%M']
+            input_formats=['%H:%M'],
+            error_messages={
+                'invalid': 'Veuillez entrer une heure valide au format HH:MM.'
+            }
         )
-    
+        class Meta:
+          model = Trajet
+          fields = ['point_depart','date_depart', 'heure_depart']

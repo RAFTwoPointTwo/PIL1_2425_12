@@ -56,15 +56,36 @@ class Discussion(models.Model):
     nouveau_message =models.TextField()
 
 
-class Trajet(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyager' )
-    start_lat = models.FloatField()
-    start_lng = models.FloatField()
-    heure_depart = models.TimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Trajet de {self.user.username} à {self.heure_depart}"
 
 
 
+
+class Trajet(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
+    date_depart = models.DateField()
+    point_depart = models.CharField(max_length=100)
+    heure_depart = models.TimeField()
+    created_at = models.DateTimeField(default=timezone.now)
+    
+
+    def __str__(self):
+        return f"Trajet de {self.user.username} à {self.heure_depart}"
+    
+
+class Match(models.Model):
+    trajet_1 = models.ForeignKey(Trajet, on_delete=models.CASCADE, related_name='matches_initie')
+    trajet_2 = models.ForeignKey(Trajet, on_delete=models.CASCADE, related_name='matches_recu')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='matches')
+    distance = models.FloatField()
+    ecart_temps = models.FloatField()  # En minutes
+    date_depart = models.DateField()
+    class Meta:
+           constraints = [
+            models.UniqueConstraint(fields=['trajet_1', 'trajet_2'], name='unique_match_pair')
+        ]
+
+    def __str__(self):
+        return f"Match pour {self.user.username} sur le trajet {self.trajet.id}"

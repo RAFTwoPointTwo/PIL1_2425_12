@@ -29,6 +29,7 @@
             background-image: linear-gradient(74deg,#a1cef7,rgb(156, 244, 252),rgb(141, 254, 222));
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
+
             
 
         }
@@ -174,25 +175,27 @@
        <form method="POST">
            {% csrf_token %}
            <div class="row attribut-1">
-                <div class="col-md">
-                     <span>Point de départ</span><br>
-                     <input class="attribut-3" type="text" name="point_de_depart" placeholder="Ex: Abomey-Calavi">
+                <div class="col-md " >
+                     <span>{{form.point_depart.label_tag}}</span><br>
+                      {{form.point_depart}}
                 </div>
                <div class="col-md">
-                     <span>Point d'arrivée</span><br>
-                     <input class="attribut-3" type="text" name="point_d_arrivee" placeholder="Ex: Cotonou">
+                     <span>{{ form.date_depart.label_tag }}</span><br>
+                        {{ form.date_depart }}
                 </div>
                 <div class="col-md">
-                        <span>Heure de départ</span><br>
-                        <input class="attribut-3" type="time" name="heure_de_depart">
-               <div class="row marge-right"><a href=""><button class="attribut-4 btn">Valider</button></a></div>
-           </div>
-
-       </form>
+                        <span>{{form.heure_depart.label_tag}}</span><br>
+                         {{form.heure_depart}}
+               
+                </div>
+            </div>
+          <button type="submit" class="attribut-4 btn">Valider</button>
+        </form>
+        
 
     </div>
-   </div>
-    </div>
+   
+    
 
     <div class="container fw-bold  rounded-5" id="how">
         <span class="container fw-bold fs-3 flux-clair rounded-pill my-5">► Comment ça marche ?</span>
@@ -233,7 +236,7 @@
         </div>
     </div>
 
-     <footer class="container-fluid text-center attribut-9 mb-5">
+     <footer class=" text-center attribut-9 mb-5">
             
                 <div class="row">
                    <p>All right reserved</p>

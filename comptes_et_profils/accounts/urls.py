@@ -12,10 +12,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('compte_cree/' , views.created_account , name = 'compte_cree'),
     path('map_page/', views.map_page, name='map_page'),
-    path('enregistrer/', views.enregistrer_trajet, name='enregistrer'),
+    
     path('messages/inbox/', views.inbox, name='inbox'),
     path('messages/envoyer/', views.send_message, name='send_message'),
-    path('matching/', views.choisir_trajet, name='choisir_trajet'),
+    path('matching_page/', views.matching_page, name='matching_page'),
     path('profil/' , views.profil , name='profile'),
     path('profile_updating/' , views.profile_update , name='profile_update')
 ]
