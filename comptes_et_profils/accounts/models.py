@@ -60,9 +60,6 @@ class Discussion(models.Model):
     def __str__(self):
         return f"Trajet de {self.user.username} à {self.heure_depart}"
 
-
-
-
 class Trajet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
     date_depart = models.DateField()
@@ -80,7 +77,7 @@ class Match(models.Model):
     trajet_2 = models.ForeignKey(Trajet, on_delete=models.CASCADE, related_name='matches_recu')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='matches')
     distance = models.FloatField()
-    ecart_temps = models.FloatField()  # En minutes
+    ecart_temps = models.FloatField()
     date_depart = models.DateField()
     class Meta:
            constraints = [
