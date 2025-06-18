@@ -1,28 +1,19 @@
-from geopy.distance import geodesic
-from geopy.geocoders import Nominatim
-from datetime import datetime, date
-from .models import Trajet, CustomUser,Match
-
-
-
 import requests
 from datetime import datetime, date
 from geopy.geocoders import Nominatim
 from .models import Trajet, Match
 
 geolocator = Nominatim(user_agent="matching_app")
-
-# Fonction pour récupérer la distance via OSRM
 def get_osrm_distance(coord1, coord2):
     osrm_url = f"http://router.project-osrm.org/route/v1/driving/{coord1[1]},{coord1[0]};{coord2[1]},{coord2[0]}?overview=false"
     response = requests.get(osrm_url)
     
     if response.status_code == 200:
         data = response.json()
-        return data["routes"][0]["distance"] / 1000  # Convertir en km
+        return data["routes"][0]["distance"] / 1000
     else:
         print(f"Erreur API OSRM : {response.status_code}")
-        return None  # Retourne None si erreur
+        return None
 
 def matching(request):
     user = request.user
@@ -55,7 +46,7 @@ def matching(request):
                     coord1 = (position1.latitude, position1.longitude)
                     coord2 = (position2.latitude, position2.longitude)
 
-                    distance = get_osrm_distance(coord1, coord2)  # OSRM au lieu de geodesic
+                    distance = get_osrm_distance(coord1, coord2)
                     if distance is not None and distance <= 6 :
                         match_exist = Match.objects.filter(trajet_1=mon_trajet, trajet_2=trajet).exists()
                         
@@ -77,28 +68,18 @@ def matching(request):
                             'ecart_temps': ecart_temps / 60,
                             'date_depart': mon_trajet.date_depart,
                         })
-
-    
-                        
             except Exception as e:
                 print(f"Erreur lors du calcul de la distance: {e}")    
     def remove_duplicates(matches):
         unique_matches = []
-        seen_users = set()  # Stocke les utilisateurs déjà ajoutés
-    
+        seen_users = set()
         for match in matches:
-            user = match['user']  # Utiliser uniquement le champ "user"
-        
+            user = match['user']
             if user not in seen_users:
                seen_users.add(user)
                unique_matches.append(match)
-    
         return unique_matches
-
-            
-
     return remove_duplicates(matches) 
-
 
 
 
