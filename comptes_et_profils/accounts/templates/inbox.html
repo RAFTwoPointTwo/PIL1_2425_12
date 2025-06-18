@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-success">📥 Boîte de réception</h2>
+    <h2 class="text-primary">📥 Boîte de réception</h2>
     {% for msg in messages %}
-        <div class="card mb-2 border-success">
+        <div class="card mb-2 border-primary">
             <div class="card-body">
                 <h6 class="card-subtitle mb-1 text-muted">
                     De {{ msg.sender.username }} – {{ msg.timestamp|date:"d/m/Y H:i" }}
@@ -13,7 +13,7 @@
             </div>
         </div>
     {% empty %}
-        <p>Aucun message reçu.</p>
+        <p class="text-secondary">Aucun message reçu.</p>
     {% endfor %}
 </div>
 <div class="container d-flex justify-content-center align-items-center mb-2"><a href="{% url 'principale' %}" class="btn btn-danger">Retourner à la page principale</a></div>

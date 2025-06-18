@@ -15,15 +15,15 @@ class CustomUser(AbstractUser):
     prenom = models.CharField(max_length=50)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    numero_de_telephone = models.CharField(max_length=10 , unique=True , null=False)
+    numero_de_telephone = models.CharField(max_length=10, unique=True, null=False)
     TYPE_CHOIX = [
         ('passager', 'Passager'),
         ('conducteur', 'Conducteur'),
     ]
     role = models.CharField(max_length=12, choices=TYPE_CHOIX, default='passager')
     start_point = models.CharField("Point de départ habituel", max_length=50, blank=False)
-    start_date = models.TimeField("Heure de départ", blank=False, null=False ,default=timezone.now)
-    arrival_date = models.TimeField("Heure d'arrivée", blank=False, null=False , default=timezone.now)
+    start_date = models.TimeField("Heure de départ", blank=False, null=False, default=timezone.now)
+    arrival_date = models.TimeField("Heure d'arrivée", blank=False, null=False, default=timezone.now)
     vehicule_marque = models.CharField("Marque de votre véhicule", max_length=50, blank=True)
     vehicule_model = models.CharField("Modèle de votre véhicule", max_length=50, blank=True)
     vehicule_place = models.PositiveIntegerField("PLaces disponibles dans votre véhicule", blank=True, null=True)
@@ -47,30 +47,28 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
-
     def __str__(self):
         return f"De {self.sender} à {self.recipient} - {self.timestamp.strftime('%d/%m/%Y %H:%M')}"
-    
+
+
 class Discussion(models.Model):
     ancients_messages = models.ManyToManyField(Message, related_name='discussions')
-    nouveau_message =models.TextField()
-
-
+    nouveau_message = models.TextField()
 
     def __str__(self):
         return f"Trajet de {self.user.username} à {self.heure_depart}"
 
+
 class Trajet(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='voyageur' )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='voyageur')
     date_depart = models.DateField()
     point_depart = models.CharField(max_length=100)
     heure_depart = models.TimeField()
     created_at = models.DateTimeField(default=timezone.now)
-    
 
     def __str__(self):
         return f"Trajet de {self.user.username} à {self.heure_depart}"
-    
+
 
 class Match(models.Model):
     trajet_1 = models.ForeignKey(Trajet, on_delete=models.CASCADE, related_name='matches_initie')
@@ -79,8 +77,9 @@ class Match(models.Model):
     distance = models.FloatField()
     ecart_temps = models.FloatField()
     date_depart = models.DateField()
+
     class Meta:
-           constraints = [
+        constraints = [
             models.UniqueConstraint(fields=['trajet_1', 'trajet_2'], name='unique_match_pair')
         ]
 

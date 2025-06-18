@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-success">✉️ Envoyer un message</h2>
+    <h2 class="text-primary">✉️ Envoyer un message</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Envoyer</button>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>
 </div>
 <div class="container d-flex justify-content-center align-items-center mb-2"><a href="{% url 'principale' %}" class="btn btn-danger">Retourner à la page principale</a></div>

@@ -48,7 +48,11 @@
             <button type="submit" class="btn btn-primary w-100">Connexion</button>
         </form>
 
-        <a href="{% url 'password_reset_form' %}" class="text-decoration-none"><div class="text-primary">Mot de passe oublié ?</div></a>
+        <div class="d-flex justify-content-around">
+            <a href="{% url 'password_reset_form' %}" class="text-decoration-none"><div class="text-primary">Mot de passe oublié ?</div></a>
+            <a href="{% url 'register' %}" class="text-decoration-none"><div class="text-primary">Créer un compte ?</div></a>
+        </div>
+
 
     </div>
 </div>

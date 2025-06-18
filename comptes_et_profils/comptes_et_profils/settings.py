@@ -87,14 +87,11 @@ WSGI_APPLICATION = 'comptes_et_profils.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test13',
+        'NAME': 'test15',
         'USER': 'root',
         'PASSWORD':'rafcode7',
         'HOST':'localhost',
         'PORT':'3306',
-        
-        
-        
     }
 }
 
@@ -143,10 +140,4 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR , 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
-#LOGIN_REDIRECT_URL = 'profil'
-#LOGOUT_REDIRECT_URL = 'login'
-#LOGIN_REDIRECT_URL = '/principale/'
-#LOGOUT_REDIRECT_URL = '/principale/'
-# monprojet/settings.py
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

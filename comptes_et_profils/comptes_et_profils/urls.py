@@ -7,8 +7,6 @@ from django.contrib.auth import views as auth_views  # Importation des vues d'au
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
-
-    # URLs pour la réinitialisation du mot de passe
     path('password_reset/',
          auth_views.PasswordResetView.as_view(
              template_name='registration/password_reset_form.html',
@@ -32,7 +30,5 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
 ]
-
-# Gestion des fichiers médias en mode DEBUG
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

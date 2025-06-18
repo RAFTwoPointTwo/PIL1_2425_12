@@ -1,13 +1,13 @@
-from django.contrib.auth import login , get_user_model , authenticate
-from .forms import CustomUserForm , CustomUserUpdateForm
+from django.contrib.auth import login, get_user_model, authenticate
+from .forms import CustomUserForm, CustomUserUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Trajet,CustomUser
+from .models import Trajet, CustomUser
 from django.contrib import messages
-from .models import Message , Profile, Match
-from .forms import MessageForm , TrajetForm
+from .models import Message, Profile, Match
+from .forms import MessageForm, TrajetForm
 import json
 import folium
 from geopy.geocoders import Nominatim
@@ -15,26 +15,24 @@ from .matching import matching
 from django.db import models
 
 
-
 @login_required
 def principale(request):
-    
     if request.method == 'POST':
-        form= TrajetForm(request.POST)
+        form = TrajetForm(request.POST)
         if form.is_valid():
-           trajet = form.save(commit=False)
-           trajet.user = request.user
-           trajet.save()
-           matching(request)
-           return redirect('matching_page')     
-           
-           
-              
+            trajet = form.save(commit=False)
+            trajet.user = request.user
+            trajet.save()
+            matching(request)
+            return redirect('matching_page')
+
+
+
     else:
-         form = TrajetForm()
-        
-        
-    return render(request, 'principale.html',{'utilisateurs': CustomUser.objects.all()[:3],'form':form })
+        form = TrajetForm()
+
+    return render(request, 'principale.html', {'utilisateurs': CustomUser.objects.all()[:3], 'form': form})
+
 
 def register(request):
     if request.method == 'POST':
@@ -49,12 +47,14 @@ def register(request):
 
 
 def created_account(request):
-    return render(request , "compte_cree.html")
+    return render(request, "compte_cree.html")
+
 
 @login_required
 def profil(request):
     profile = request.user.profile
     return render(request, 'profile.html', {'profile': profile})
+
 
 @login_required
 def profile_update(request):
@@ -71,8 +71,8 @@ def profile_update(request):
     return render(request, 'profile_update.html', {'form': form})
 
 
-
 User = get_user_model()
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -145,13 +145,11 @@ def map_page(request):
     return render(request, 'map_page.html', {'map': map_html})
 
 
-
-
-
 @login_required
 def inbox(request):
     messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
     return render(request, 'inbox.html', {'messages': messages})
+
 
 @login_required
 def send_message(request):
@@ -165,10 +163,6 @@ def send_message(request):
     else:
         form = MessageForm()
     return render(request, 'send_message.html', {'form': form})
-
-
-
-
 
 
 @login_required
@@ -204,7 +198,6 @@ Bonne route 🚀
             )
             return redirect('inbox')
         except User.DoesNotExist:
-            # Gérer l'erreur si nécessaire
             pass
 
     return render(request, 'matching_page.html', {
@@ -212,7 +205,6 @@ Bonne route 🚀
         'trajets': Trajet.objects.filter(user=user).order_by('-created_at')[:1],
         'matchs': Match.objects.filter(user=user).order_by('-date_depart')[:3]
     })
-
 
 
 from django.shortcuts import redirect
@@ -224,16 +216,16 @@ from .models import Message, Match
 def envoyer_message(request, destinataire_id):
     if request.method == "POST":
         destinataire = User.objects.get(id=destinataire_id)
-        match = Match.objects.filter(user=destinataire).latest('date_depart')  # Récupérer le dernier match
+        match = Match.objects.filter(user=destinataire).latest('date_depart')
 
         if match:
             message_defini = f"""
             Bonjour {destinataire.username},
-            
+
             Nous avons trouvé une correspondance pour votre trajet du {match.date_depart}.
             - 🚗 Distance estimée : {match.distance} km
             - ⏳ Temps de trajet estimé : {match.ecart_temps} min
-            
+
             Contactez-nous si vous souhaitez plus d'informations !
 
             Bonne route 🚀
@@ -243,12 +235,12 @@ def envoyer_message(request, destinataire_id):
                 sender=request.user,
                 recipient=destinataire,
                 content=message_defini,
-                timestamp = models.DateTimeField(auto_now_add=True),
-                read = models.BooleanField(default=False),
+                timestamp=models.DateTimeField(auto_now_add=True),
+                read=models.BooleanField(default=False),
             )
-        print(destinataire.username)    
+        print(destinataire.username)
 
-        return redirect('send_message')  # Redirection après l'envoi du message
+        return redirect('send_message')
     else:
-        
+        destinataire = User.objects.get(id=destinataire_id)
         return render(request, 'matching_page.html', {'receiver': destinataire})

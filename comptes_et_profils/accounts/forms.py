@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Message,CustomUser
+from .models import Message, CustomUser
 from .models import Trajet
+
 
 class CustomUserForm(forms.ModelForm):
     start_date = forms.TimeField(
@@ -99,7 +100,8 @@ class CustomUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['nom', 'prenom', 'username', 'password', 'email', 'numero_de_telephone', 'role' , 'start_point' , 'start_date' , 'arrival_date' , 'vehicule_marque' , 'vehicule_model' , 'vehicule_place']
+        fields = ['nom', 'prenom', 'username', 'password', 'email', 'numero_de_telephone', 'role', 'start_point',
+                  'start_date', 'arrival_date', 'vehicule_marque', 'vehicule_model', 'vehicule_place']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -123,10 +125,12 @@ class CustomUserForm(forms.ModelForm):
             user.save()
         return user
 
+
 class CustomUserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['nom', 'prenom', 'email', 'numero_de_telephone', 'role' , 'start_point' , 'start_date' , 'arrival_date' , 'vehicule_marque' , 'vehicule_model' , 'vehicule_place']
+        fields = ['nom', 'prenom', 'email', 'numero_de_telephone', 'role', 'start_point', 'start_date', 'arrival_date',
+                  'vehicule_marque', 'vehicule_model', 'vehicule_place']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -142,7 +146,6 @@ class CustomUserUpdateForm(forms.ModelForm):
                 field.widget.attrs['placeholder'] = "Renseignez ce champ uniquement si vous êtes un conducteur"
 
 
-
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
@@ -152,31 +155,33 @@ class MessageForm(forms.ModelForm):
             'recipient': forms.Select(attrs={'class': 'form-control'}),
         }
 
+
 class TrajetForm(forms.ModelForm):
-        date_depart = forms.DateField(
-            label="Date de départ",
-            widget=forms.DateInput(attrs={'type': 'date'}),
-            input_formats=['%Y-%m-%d'],
-            error_messages={
-                'invalid': 'Veuillez entrer une date valide au format AAAA-MM-JJ.'
-            }
-        )
-  
-        point_depart = forms.CharField(
-            label="Point de départ",
-            max_length=100,
-            error_messages={
-                'invalid': 'Le point de départ ne peut pas dépasser 100 caractères.'
-            }
-        )
-        heure_depart = forms.TimeField(
-            label="Heure de départ",
-            widget=forms.TimeInput(attrs={'type': 'time'}),
-            input_formats=['%H:%M'],
-            error_messages={
-                'invalid': 'Veuillez entrer une heure valide au format HH:MM.'
-            }
-        )
-        class Meta:
-          model = Trajet
-          fields = ['point_depart','date_depart', 'heure_depart']
+    date_depart = forms.DateField(
+        label="Date de départ",
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d'],
+        error_messages={
+            'invalid': 'Veuillez entrer une date valide au format AAAA-MM-JJ.'
+        }
+    )
+
+    point_depart = forms.CharField(
+        label="Point de départ",
+        max_length=100,
+        error_messages={
+            'invalid': 'Le point de départ ne peut pas dépasser 100 caractères.'
+        }
+    )
+    heure_depart = forms.TimeField(
+        label="Heure de départ",
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        input_formats=['%H:%M'],
+        error_messages={
+            'invalid': 'Veuillez entrer une heure valide au format HH:MM.'
+        }
+    )
+
+    class Meta:
+        model = Trajet
+        fields = ['point_depart', 'date_depart', 'heure_depart']
