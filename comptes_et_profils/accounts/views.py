@@ -3,12 +3,10 @@ from .forms import CustomUserForm, CustomUserUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from .models import Trajet, CustomUser
 from django.contrib import messages
-from .models import Message, Profile, Match
+from .models import Message, Match
 from .forms import MessageForm, TrajetForm
-import json
 import folium
 from geopy.geocoders import Nominatim
 from .matching import matching
