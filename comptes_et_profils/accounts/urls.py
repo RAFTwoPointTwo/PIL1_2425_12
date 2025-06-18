@@ -17,5 +17,8 @@ urlpatterns = [
     path('messages/envoyer/', views.send_message, name='send_message'),
     path('matching_page/', views.matching_page, name='matching_page'),
     path('profil/' , views.profil , name='profile'),
-    path('profile_updating/' , views.profile_update , name='profile_update')
+    path('profile_updating/' , views.profile_update , name='profile_update'),
+    path('envoyer_ message/', views.envoyer_message, name='envoyer_message'),
+
+
 ]

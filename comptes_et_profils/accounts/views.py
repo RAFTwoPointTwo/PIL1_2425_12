@@ -12,6 +12,7 @@ import json
 import folium
 from geopy.geocoders import Nominatim
 from .matching import matching
+from django.db import models
 
 
 
@@ -167,9 +168,87 @@ def send_message(request):
 
 
 
+
+
+
 @login_required
 def matching_page(request):
     user = request.user
-    matches = matching(request)   
-    
-    return render(request, 'matching_page.html', {'matches': matches,  'trajets': Trajet.objects.filter(user=user).order_by('-created_at')[:1],'matchs': Match.objects.filter(user=user).order_by('-date_depart')[:3]})
+    matches = matching(request)
+
+    if request.method == 'POST':
+        destinataire_id = request.POST.get('destinataire_id')
+        username = request.POST.get('username')
+        date = request.POST.get('date_depart')
+        distance = request.POST.get('distance')
+        temps = request.POST.get('temps')
+
+        try:
+            destinataire = User.objects.get(id=destinataire_id)
+            message_defini = f"""
+Bonjour {username},
+
+Nous avons trouvé une correspondance pour votre trajet du {date}.
+- 🚗 Distance estimée : {distance} km
+- ⏳ Temps estimé : {temps} min
+
+Contactez-nous si vous souhaitez plus d'informations.
+
+Bonne route 🚀
+"""
+
+            Message.objects.create(
+                sender=request.user,
+                recipient=destinataire,
+                content=message_defini
+            )
+            return redirect('inbox')
+        except User.DoesNotExist:
+            # Gérer l'erreur si nécessaire
+            pass
+
+    return render(request, 'matching_page.html', {
+        'matches': matches,
+        'trajets': Trajet.objects.filter(user=user).order_by('-created_at')[:1],
+        'matchs': Match.objects.filter(user=user).order_by('-date_depart')[:3]
+    })
+
+
+
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
+from .models import Message, Match
+
+
+@login_required
+def envoyer_message(request, destinataire_id):
+    if request.method == "POST":
+        destinataire = User.objects.get(id=destinataire_id)
+        match = Match.objects.filter(user=destinataire).latest('date_depart')  # Récupérer le dernier match
+
+        if match:
+            message_defini = f"""
+            Bonjour {destinataire.username},
+            
+            Nous avons trouvé une correspondance pour votre trajet du {match.date_depart}.
+            - 🚗 Distance estimée : {match.distance} km
+            - ⏳ Temps de trajet estimé : {match.ecart_temps} min
+            
+            Contactez-nous si vous souhaitez plus d'informations !
+
+            Bonne route 🚀
+            """
+
+            Message.objects.create(
+                sender=request.user,
+                recipient=destinataire,
+                content=message_defini,
+                timestamp = models.DateTimeField(auto_now_add=True),
+                read = models.BooleanField(default=False),
+            )
+        print(destinataire.username)    
+
+        return redirect('send_message')  # Redirection après l'envoi du message
+    else:
+        
+        return render(request, 'matching_page.html', {'receiver': destinataire})

@@ -48,11 +48,24 @@
         <div class="card user-card border-success bg-light">
             <div class="card-body">
                 <h5 class="card-title">{{ match.user.username }}</h5>
-                <p class="card-text">Point de départ : {{ match.point_depart }}</p>
-                <p class="card-text">Heure de départ : {{ match.heure_depart }}</p>
+                <p class="card-text">Point de départ : {{ match.trajet_2.point_depart }}</p>
+                <p class="card-text">Heure de départ : {{ match.trajet_2.heure_depart }}</p>
                 <p class="card-text">Date de départ : {{ match.date_depart }}</p>
                 <p class="card-text">Distance : {{ match.distance }} km</p>
-                 <button class="btn btn-success">Accepter</button>
+                <form method="POST" action="{% url 'send_message' %}">
+                        {% csrf_token %}
+                            <input type="hidden" name="destinataire_id" value="{{ match.user.id }}">
+                         <input type="hidden" name="date_depart" value="{{ match.date_depart }}">
+                       <input type="hidden" name="distance" value="{{ match.distance }}">
+                    <input type="hidden" name="temps" value="{{ match.ecart_temps }}">
+                  <input type="hidden" name="username" value="{{ match.user.username }}">
+
+                    
+                    
+                   
+                     <button type="submit" class="btn btn-success">Envoyer message</button>
+                </form>
+                 
             </div>
         </div>
         
